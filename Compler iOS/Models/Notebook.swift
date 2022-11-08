@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Computer: Identifiable, Codable {
+struct Notebook: Identifiable, Codable {
     
     var id: String
     var name: String
@@ -26,13 +26,13 @@ struct Computer: Identifiable, Codable {
     var cpuSingleScore: Int
     var cpuMultiScore: Int
     
-    var gpuName: String
-    var gpuMemorySize: Int
+    var gpuName: String?
+    var gpuMemorySize: Int?
     var gpuScore: Int
     
     var price: Int
     
-    func getComputerString() -> String {
-        return "\(name) \(screenSize)¨ - \(cpuName), \(memorySize)GB RAM, \(storageSize)GB, \(gpuName) \(gpuMemorySize) - \(price) Kč"
+    func getString() -> String {
+        return "\(name) \(screenSize)¨ - \(cpuName), \(memorySize)GB RAM, \(storageSize)GB, \(gpuName ?? "") \(gpuMemorySize ?? 0) - \(price) Kč"
     }
 }
