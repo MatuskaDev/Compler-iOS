@@ -32,7 +32,7 @@ struct Notebook: Identifiable, Codable {
     
     var price: Int
     
-    func getString() -> String {
-        return "\(name) \(screenSize)¨ - \(cpuName), \(memorySize)GB RAM, \(storageSize)GB, \(gpuName ?? "") \(gpuMemorySize ?? 0) - \(price) Kč"
+    var model: String {
+        return "\(name) \(screenSize)\""
     }
 }

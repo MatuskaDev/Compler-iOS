@@ -8,50 +8,25 @@
 import SwiftUI
 
 struct ProductListView: View {
+    
+    @ObservedObject var model = ProductListViewModel()
+    
     var body: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))]) {
-            VStack {
-                Image("pc")
-                    .resizable()
-                    .scaledToFit()
-                Text("Compler Home")
-                    .font(.title2)
-                    .bold()
-                    .multilineTextAlignment(.center)
+        
+        if model.notebookModels == nil {
+            ProgressView()
+        } else {
+            List {
+                ForEach(model.notebookModels!.sorted(), id:\.self) { model in
+                    NavigationLink {
+                        ProductDetailView(model: model)
+                    } label: {
+                        Text(model)
+                    }
+                }
             }
-            .padding()
-            .background()
-            .cornerRadius(10)
-            .shadow(radius: 10)
-            .padding()
-            VStack {
-                Image("pc")
-                    .resizable()
-                    .scaledToFit()
-                Text("Compler Home")
-                    .font(.title2)
-                    .bold()
-                    .multilineTextAlignment(.center)
-            }
-            .padding()
-            .background()
-            .cornerRadius(10)
-            .shadow(radius: 10)
-            .padding()
-            VStack {
-                Image("pc")
-                    .resizable()
-                    .scaledToFit()
-                Text("Compler Home")
-                    .font(.title2)
-                    .bold()
-                    .multilineTextAlignment(.center)
-            }
-            .padding()
-            .background()
-            .cornerRadius(10)
-            .shadow(radius: 10)
-            .padding()
+            .navigationTitle("Nabídka")
+            .navigationBarTitleDisplayMode(.large)
         }
     }
 }
