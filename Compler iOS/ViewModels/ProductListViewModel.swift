@@ -9,19 +9,19 @@ import Foundation
 
 class ProductListViewModel: ObservableObject {
     
-    @Published var notebookModels: Set<String>?
+    @Published var products: [Product]?
     
     init() {
         
-        DatabaseManager.shared.getNotebookModels { models, error in
+        DatabaseManager.shared.getProducts { products, error in
             
             guard error == nil else {
-                print(error!.localizedDescription)
+                print(error!)
                 return
             }
             
             DispatchQueue.main.async {
-                self.notebookModels = models
+                self.products = products
             }
         }
     }

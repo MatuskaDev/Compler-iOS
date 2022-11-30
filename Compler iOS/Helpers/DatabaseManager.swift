@@ -16,66 +16,23 @@ class DatabaseManager {
     
     private let db = Firestore.firestore()
     
-    func getNotebooks(completion: @escaping ([Notebook]?, Error?) -> Void) {
+    func getProducts(completion: @escaping ([Product]?, Error?) -> Void) {
         
-        let collection = db.collection("notebooks")
+        let collection = db.collection("products")
         
         Task.init {
             do {
-                var notebooks = [Notebook]()
+                var products = [Product]()
                 let snapshot = try await collection.getDocuments()
                 for doc in snapshot.documents {
-                    notebooks.append(try doc.data(as: Notebook.self))
+                    products.append(try doc.data(as: Product.self))
                 }
-                completion(notebooks, nil)
+                completion(products, nil)
             }
             catch {
                 completion(nil, error)
             }
         }
         
-    }
-    
-    func getNotebookModels(completion: @escaping (Set<String>?, Error?) -> Void) {
-        
-        let collection = db.collection("notebooks")
-        
-        Task.init {
-            do {
-                var notebookModels = Set<String>()
-                let snapshot = try await collection.getDocuments()
-                for doc in snapshot.documents {
-                    notebookModels.update(with: try doc.data(as: Notebook.self).model)
-                }
-                completion(notebookModels, nil)
-            }
-            catch {
-                completion(nil, error)
-            }
-        }
-        
-    }
-    
-    func getConfigurationsFor(model: String, completion: @escaping ([Notebook]?, Error?) -> Void) {
-        
-        let collection = db.collection("notebooks")
-        
-        // TODO: Use query
-        Task.init {
-            do {
-                var notebooks = [Notebook]()
-                let snapshot = try await collection.getDocuments()
-                for doc in snapshot.documents {
-                    let notebook = try doc.data(as: Notebook.self)
-                    if notebook.model == model {
-                        notebooks.append(notebook)
-                    }
-                }
-                completion(notebooks, nil)
-            }
-            catch {
-                completion(nil, error)
-            }
-        }
     }
 }

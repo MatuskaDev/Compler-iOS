@@ -13,15 +13,15 @@ struct ProductListView: View {
     
     var body: some View {
         
-        if model.notebookModels == nil {
+        if model.products == nil {
             ProgressView()
         } else {
             List {
-                ForEach(model.notebookModels!.sorted(), id:\.self) { model in
+                ForEach(model.products!) { product in
                     NavigationLink {
-                        ProductDetailView(model: model)
+                        ProductDetailView(product: product)
                     } label: {
-                        Text(model)
+                        Text(product.modelName)
                     }
                 }
             }

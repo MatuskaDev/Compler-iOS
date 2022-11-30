@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7E1B1EB22937A37E00E45C7D /* ProductConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B1EB12937A37E00E45C7D /* ProductConfiguration.swift */; };
+		7E1B1EB42937A3A600E45C7D /* ProductColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B1EB32937A3A600E45C7D /* ProductColor.swift */; };
+		7E1B1EB62937AD5400E45C7D /* ProductConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B1EB52937AD5400E45C7D /* ProductConfigurator.swift */; };
 		7E3934A1291AB7C6004C3146 /* Compler_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3934A0291AB7C6004C3146 /* Compler_iOSApp.swift */; };
 		7E3934A5291AB7C9004C3146 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E3934A4291AB7C9004C3146 /* Assets.xcassets */; };
 		7E3934A8291AB7C9004C3146 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E3934A7291AB7C9004C3146 /* Preview Assets.xcassets */; };
@@ -17,7 +20,7 @@
 		7E3934C2291AB82D004C3146 /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3934B5291AB821004C3146 /* ProductDetailView.swift */; };
 		7E3934C3291AB82D004C3146 /* ProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3934B6291AB821004C3146 /* ProductListView.swift */; };
 		7E3934C4291AB82D004C3146 /* animated-logo.gif in Resources */ = {isa = PBXBuildFile; fileRef = 7E3934B8291AB82A004C3146 /* animated-logo.gif */; };
-		7E3934C5291AB82D004C3146 /* Notebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3934BA291AB82A004C3146 /* Notebook.swift */; };
+		7E3934C5291AB82D004C3146 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3934BA291AB82A004C3146 /* Product.swift */; };
 		7E3934C6291AB82D004C3146 /* Resolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3934BB291AB82A004C3146 /* Resolution.swift */; };
 		7E3934CA291ABBD4004C3146 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7E3934C9291ABBD4004C3146 /* FirebaseAuth */; };
 		7E3934CC291ABBD4004C3146 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7E3934CB291ABBD4004C3146 /* FirebaseFirestore */; };
@@ -30,6 +33,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7E1B1EB12937A37E00E45C7D /* ProductConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductConfiguration.swift; sourceTree = "<group>"; };
+		7E1B1EB32937A3A600E45C7D /* ProductColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductColor.swift; sourceTree = "<group>"; };
+		7E1B1EB52937AD5400E45C7D /* ProductConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductConfigurator.swift; sourceTree = "<group>"; };
 		7E39349D291AB7C6004C3146 /* Compler iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Compler iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E3934A0291AB7C6004C3146 /* Compler_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compler_iOSApp.swift; sourceTree = "<group>"; };
 		7E3934A4291AB7C9004C3146 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -41,7 +47,7 @@
 		7E3934B5291AB821004C3146 /* ProductDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		7E3934B6291AB821004C3146 /* ProductListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListView.swift; sourceTree = "<group>"; };
 		7E3934B8291AB82A004C3146 /* animated-logo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "animated-logo.gif"; sourceTree = "<group>"; };
-		7E3934BA291AB82A004C3146 /* Notebook.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notebook.swift; sourceTree = "<group>"; };
+		7E3934BA291AB82A004C3146 /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		7E3934BB291AB82A004C3146 /* Resolution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resolution.swift; sourceTree = "<group>"; };
 		7E3934CF291ABD25004C3146 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7E91DC88291C19F20079B186 /* ProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewModel.swift; sourceTree = "<group>"; };
@@ -143,7 +149,9 @@
 		7E3934B9291AB82A004C3146 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				7E3934BA291AB82A004C3146 /* Notebook.swift */,
+				7E3934BA291AB82A004C3146 /* Product.swift */,
+				7E1B1EB12937A37E00E45C7D /* ProductConfiguration.swift */,
+				7E1B1EB32937A3A600E45C7D /* ProductColor.swift */,
 				7E3934BB291AB82A004C3146 /* Resolution.swift */,
 			);
 			path = Models;
@@ -162,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				7E3934B5291AB821004C3146 /* ProductDetailView.swift */,
+				7E1B1EB52937AD5400E45C7D /* ProductConfigurator.swift */,
 				7EC4B3A82920E73700ABEC90 /* ProductOption.swift */,
 			);
 			path = "Product detail";
@@ -249,6 +258,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E1B1EB22937A37E00E45C7D /* ProductConfiguration.swift in Sources */,
 				7EC4B3A92920E73700ABEC90 /* ProductOption.swift in Sources */,
 				7E3934C3291AB82D004C3146 /* ProductListView.swift in Sources */,
 				7E3934C2291AB82D004C3146 /* ProductDetailView.swift in Sources */,
@@ -257,8 +267,10 @@
 				7E3934C0291AB82D004C3146 /* CarouselCard.swift in Sources */,
 				7E3934BF291AB82C004C3146 /* DashboardView.swift in Sources */,
 				7E3934A1291AB7C6004C3146 /* Compler_iOSApp.swift in Sources */,
+				7E1B1EB62937AD5400E45C7D /* ProductConfigurator.swift in Sources */,
+				7E1B1EB42937A3A600E45C7D /* ProductColor.swift in Sources */,
 				7E91DC89291C19F20079B186 /* ProductViewModel.swift in Sources */,
-				7E3934C5291AB82D004C3146 /* Notebook.swift in Sources */,
+				7E3934C5291AB82D004C3146 /* Product.swift in Sources */,
 				7E3934C1291AB82D004C3146 /* CarouselView.swift in Sources */,
 				7E3934BE291AB82C004C3146 /* DatabaseManager.swift in Sources */,
 			);

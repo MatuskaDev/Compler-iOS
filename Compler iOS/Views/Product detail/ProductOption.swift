@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ProductOption: View {
     
-    let icon: String
     let title: String
     let price: String?
     
@@ -48,7 +47,7 @@ struct ProductOption: View {
 
 struct ProductOption_Previews: PreviewProvider {
     static var previews: some View {
-        ProductOption(icon: "gear", title: "Intel Core i9", price: "+ 10 000 Kč", isSelected: false, isAvailible: true, action: {
+        ProductOption(title: "Intel Core i9", price: "+ 10 000 Kč", isSelected: false, isAvailible: true, action: {
             //
         })
             .preferredColorScheme(.dark)
