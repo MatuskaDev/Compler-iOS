@@ -10,6 +10,17 @@ import Foundation
 class ProductListViewModel: ObservableObject {
     
     @Published var products: [Product]?
+    @Published var filter = Set<ProductFocus>()
+    
+    var filteredProducts: [Product]? {
+        if filter.isEmpty {
+            return products
+        } else {
+            return products?.filter({ product in
+                filter.contains(product.mainFocus)
+            })
+        }
+    }
     
     init() {
         

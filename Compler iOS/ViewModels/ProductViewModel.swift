@@ -27,6 +27,7 @@ class ProductViewModel: ObservableObject {
     @Published var selectedStorage: Int?
     @Published var selectedCPU: String?
     @Published var selectedGPU: String?
+    @Published var selectedColor: ProductColor?
     
     // All product options
     var memoryOptions = Set<Int>()
@@ -70,6 +71,7 @@ class ProductViewModel: ObservableObject {
         selectedStorage = cheapestConf.storageSize
         selectedCPU = cheapestConf.cpuName
         selectedGPU = cheapestConf.gpuName
+        selectedColor = product.colors.first
     }
     
     // MARK: Product configurator functions

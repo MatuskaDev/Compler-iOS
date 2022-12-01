@@ -25,6 +25,14 @@ struct Product: Codable, Identifiable {
 }
 
 extension Product {
+    var lowestPrice: Int {
+        configurations.map { conf in
+            conf.price
+        }.sorted().first ?? 0
+    }
+}
+
+extension Product {
     static let previewProduct = Product(id: UUID().uuidString,
                                         brand: "Apple",
                                         modelName: "MacBook Pro",
@@ -35,15 +43,4 @@ extension Product {
                                         description: "Dlouhý popis",
                                         colors: [.previewColor],
                                         configurations: [.previewConfiguration])
-}
-
-enum ProductFocus: Codable {
-    case games
-    case office
-    case creative
-}
-
-enum ProductType: Codable {
-    case desktop
-    case notebook
 }

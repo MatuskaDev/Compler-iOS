@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct ProductDetailView: View {
     
@@ -24,36 +25,51 @@ struct ProductDetailView: View {
         
         VStack(spacing: 0) {
             
-            ScrollView {
+            GeometryReader { geo in
                 
-                VStack {
+                ScrollView {
                     
-                    // Product images
-                    VStack {
-                        Color.gray
-                            .frame(height: 300)
-                            .cornerRadius(5)
-                        HStack {
-                            Color.gray
-                                .frame(height: 50)
-                                .cornerRadius(5)
-                            Color.gray
-                                .frame(height: 50)
-                                .cornerRadius(5)
-                            Color.gray
-                                .frame(height: 50)
-                                .cornerRadius(5)
-                            Color.gray
-                                .frame(height: 50)
-                                .cornerRadius(5)
+                    VStack(spacing: 20) {
+                        
+                        // Product images
+                        TabView {
+                            if model.product.mainImageUrl == nil {
+                                Image(systemName: "laptopcomputer")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .padding(30)
+                                    .frame(width: geo.size.width-30, height: geo.size.width-30)
+                                    .background {
+                                        Color.gray
+                                    }
+                                    .cornerRadius(10)
+                            } else {
+                                WebImage(url: model.product.mainImageUrl)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: geo.size.width-30, height: geo.size.width-30)
+                                    .cornerRadius(10)
+                            }
+                            
+                            if model.selectedColor?.imagesUrl != nil {
+                                ForEach(model.selectedColor!.imagesUrl!, id:\.self) { image in
+                                    WebImage(url: image)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: geo.size.width-30, height: geo.size.width-30)
+                                        .cornerRadius(10)
+                                }
+                            }
                         }
+                        .frame(height: geo.size.width-30)
+                        .tabViewStyle(.page)
+                        
+                        ProductConfigurator(model: model)
+                            .padding(.horizontal, 15)
+                        
+                        Spacer()
                     }
-                    
-                    ProductConfigurator(model: model)
-                    
-                    Spacer()
                 }
-                .padding()
             }
             
             // Bottom bar
