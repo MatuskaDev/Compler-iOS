@@ -64,6 +64,10 @@ struct ProductDetailView: View {
                         .frame(height: geo.size.width-30)
                         .tabViewStyle(.page)
                         
+                        if let features = model.product.features {
+                            ProductFeatureList(features: features)
+                        }
+                        
                         ProductConfigurator(model: model)
                             .padding(.horizontal, 15)
                         

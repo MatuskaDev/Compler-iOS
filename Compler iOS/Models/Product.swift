@@ -21,6 +21,8 @@ struct Product: Codable, Identifiable {
     var mainImageUrl: URL?
     var colors: [ProductColor]
     
+    var features: [ProductFeature]?
+    
     var configurations: [ProductConfiguration]
 }
 
