@@ -36,14 +36,9 @@ struct DashboardView: View {
                         //
                     } label: {
                         Text("Průvodce výběrem")
-                            .font(.title3)
                             .bold()
-                            .foregroundColor(.white)
-                            .padding(.vertical)
-                            .padding(.horizontal, 40)
-                            .background(Color.accentColor)
-                            .cornerRadius(100)
                     }
+                    .buttonStyle(LargeButtonStyle())
                     
                     HStack(spacing: 10) {
                         Rectangle()

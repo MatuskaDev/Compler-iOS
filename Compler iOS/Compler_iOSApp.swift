@@ -13,6 +13,10 @@ struct Compler_iOSApp: App {
     
     init() {
         FirebaseApp.configure()
+        
+        Task {
+            await StripeManager.shared.getPublishableKey()
+        }
     }
     
     var body: some Scene {

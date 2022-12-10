@@ -73,6 +73,11 @@ class ProductViewModel: ObservableObject {
         selectedGPU = cheapestConf.gpuName
         selectedColor = product.colors.first
     }
+
+    func getCheckoutProduct() -> CheckoutProduct? {
+        guard let configuration = selectedConfiguration, let color = selectedColor else { return nil }
+        return CheckoutProduct(product: product, configuration: configuration, color: color)
+    }
     
     // MARK: Product configurator functions
     func isOptionAvailible(memory: Int) -> Bool {

@@ -21,6 +21,8 @@ struct ProductDetailView: View {
         UIScrollView.appearance().backgroundColor = UIColor(Color("BackgroundColor"))
     }
     
+    @State var showCheckout = false
+    
     var body: some View {
         
         VStack(spacing: 0) {
@@ -95,7 +97,7 @@ struct ProductDetailView: View {
                 // Buy
                 VStack {
                     Button {
-                        //
+                        showCheckout.toggle()
                     } label: {
                         Text("Koupit")
                             .foregroundColor(.white)
@@ -112,6 +114,13 @@ struct ProductDetailView: View {
             .padding(.horizontal, 30)
             .padding(.top)
             .background(Color("SecondaryBG"))
+            .sheet(isPresented: $showCheckout) {
+                if let checkoutProduct = model.getCheckoutProduct() {
+                    CheckoutView(checkoutProduct: checkoutProduct)
+                } else {
+                    Text("Něco se pokazilo")
+                }
+            }
         }
         .navigationTitle(model.product.modelName)
         .navigationBarTitleDisplayMode(.inline)
