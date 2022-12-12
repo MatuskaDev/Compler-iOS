@@ -32,6 +32,7 @@
 		7E1B1EB22937A37E00E45C7D /* ProductConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B1EB12937A37E00E45C7D /* ProductConfiguration.swift */; };
 		7E1B1EB42937A3A600E45C7D /* ProductColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B1EB32937A3A600E45C7D /* ProductColor.swift */; };
 		7E1B1EB62937AD5400E45C7D /* ProductConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E1B1EB52937AD5400E45C7D /* ProductConfigurator.swift */; };
+		7E31E0DA29478741007DBFD2 /* ProductImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E31E0D929478741007DBFD2 /* ProductImage.swift */; };
 		7E3934A1291AB7C6004C3146 /* Compler_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3934A0291AB7C6004C3146 /* Compler_iOSApp.swift */; };
 		7E3934A5291AB7C9004C3146 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E3934A4291AB7C9004C3146 /* Assets.xcassets */; };
 		7E3934A8291AB7C9004C3146 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E3934A7291AB7C9004C3146 /* Preview Assets.xcassets */; };
@@ -74,6 +75,7 @@
 		7E1B1EB12937A37E00E45C7D /* ProductConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductConfiguration.swift; sourceTree = "<group>"; };
 		7E1B1EB32937A3A600E45C7D /* ProductColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductColor.swift; sourceTree = "<group>"; };
 		7E1B1EB52937AD5400E45C7D /* ProductConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductConfigurator.swift; sourceTree = "<group>"; };
+		7E31E0D929478741007DBFD2 /* ProductImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImage.swift; sourceTree = "<group>"; };
 		7E39349D291AB7C6004C3146 /* Compler iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Compler iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E3934A0291AB7C6004C3146 /* Compler_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compler_iOSApp.swift; sourceTree = "<group>"; };
 		7E3934A4291AB7C9004C3146 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -155,6 +157,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7E31E0DB29478751007DBFD2 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				7E31E0D929478741007DBFD2 /* ProductImage.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		7E393494291AB7C6004C3146 = {
 			isa = PBXGroup;
 			children = (
@@ -215,6 +225,7 @@
 				7EC4B3A72920E54F00ABEC90 /* Product detail */,
 				7E3934B2291AB821004C3146 /* Carousel */,
 				7E00ABC02939078000E7BDBE /* Button styles */,
+				7E31E0DB29478751007DBFD2 /* Common */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -391,6 +402,7 @@
 				7E041E6F29437FA90065BAF5 /* CheckoutProduct.swift in Sources */,
 				7E3934C0291AB82D004C3146 /* CarouselCard.swift in Sources */,
 				7E09B1B12939408A00960821 /* ProductFeatureListView.swift in Sources */,
+				7E31E0DA29478741007DBFD2 /* ProductImage.swift in Sources */,
 				7E00ABB92938FC6500E7BDBE /* Color+Extension.swift in Sources */,
 				7E00ABC62939081900E7BDBE /* ProductType.swift in Sources */,
 				7E3934BF291AB82C004C3146 /* DashboardView.swift in Sources */,

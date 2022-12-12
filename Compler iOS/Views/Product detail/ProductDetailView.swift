@@ -19,6 +19,9 @@ struct ProductDetailView: View {
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.backgroundColor = UIColor(Color("BackgroundColor"))
         UIScrollView.appearance().backgroundColor = UIColor(Color("BackgroundColor"))
+        
+        UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color("BackgroundColor"))
+        UIPageControl.appearance().pageIndicatorTintColor = UIColor(Color("BackgroundColor")).withAlphaComponent(0.2)
     }
     
     @State var showCheckout = false
@@ -26,7 +29,7 @@ struct ProductDetailView: View {
     var body: some View {
         
         VStack(spacing: 0) {
-            
+                
             GeometryReader { geo in
                 
                 ScrollView {
@@ -35,41 +38,26 @@ struct ProductDetailView: View {
                         
                         // Product images
                         TabView {
-                            if model.product.mainImageUrl == nil {
-                                Image(systemName: "laptopcomputer")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .padding(30)
-                                    .frame(width: geo.size.width-30, height: geo.size.width-30)
-                                    .background {
-                                        Color.gray
-                                    }
-                                    .cornerRadius(10)
-                            } else {
-                                WebImage(url: model.product.mainImageUrl)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: geo.size.width-30, height: geo.size.width-30)
-                                    .cornerRadius(10)
-                            }
                             
+                            // Main image
+                            ProductImage(url: model.product.mainImageUrl, size: geo.size.width-30)
+                            
+                            // Additional images
                             if model.selectedColor?.imagesUrl != nil {
                                 ForEach(model.selectedColor!.imagesUrl!, id:\.self) { image in
-                                    WebImage(url: image)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: geo.size.width-30, height: geo.size.width-30)
-                                        .cornerRadius(10)
+                                    ProductImage(url: image, size: geo.size.width-30)
                                 }
                             }
                         }
                         .frame(height: geo.size.width-30)
                         .tabViewStyle(.page)
                         
+                        // Product features
                         if let features = model.product.features {
                             ProductFeatureList(features: features)
                         }
                         
+                        // Product configurator
                         ProductConfigurator(model: model)
                             .padding(.horizontal, 15)
                         
