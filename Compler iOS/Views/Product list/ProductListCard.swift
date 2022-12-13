@@ -13,43 +13,33 @@ struct ProductListCard: View {
     let product: Product
     
     var body: some View {
+        
         VStack(spacing: 5) {
-            Spacer(minLength: 0)
-            if product.mainImageUrl == nil {
-                Image(systemName: "laptopcomputer")
-                    .resizable()
-                    .scaledToFit()
-                    .padding(20)
-                    .cornerRadius(10)
-            } else {
-                WebImage(url: product.mainImageUrl)
-                    .resizable()
-                    .scaledToFit()
-                    .cornerRadius(10)
+            
+            ZStack(alignment: .topLeading) {
+                ProductImage(url: product.mainImageUrl)
+                Image(systemName: product.mainFocus.getIconName)
+                    .foregroundColor(.accentColor)
+                    .padding(8)
             }
             
-            Text("\(product.brand) \(product.modelName)")
-                .bold()
-                .multilineTextAlignment(.center)
-            Text("Od \(formatPrice(product.lowestPrice))")
-                .font(.caption)
+            Spacer(minLength: 0)
+            
+            VStack {
+                Text("\(product.brand) \(product.modelName)")
+                    .bold()
+                    .multilineTextAlignment(.center)
+                Text("Od \(product.lowestPriceFormatted)")
+                    .font(.caption)
+            }
+            .padding()
+            
             Spacer(minLength: 0)
         }
-        .padding()
         .background {
             Color("SecondaryBG")
         }
         .cornerRadius(10)
-    }
-    
-    func formatPrice(_ price: Int) -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.currencyCode = "czk"
-        formatter.currencyGroupingSeparator = " "
-        formatter.currencyDecimalSeparator = ","
-        formatter.minimumFractionDigits = 0
-        return formatter.string(from: price as NSNumber)!
     }
 }
 
@@ -57,5 +47,6 @@ struct ProductListCard_Previews: PreviewProvider {
     static var previews: some View {
         ProductListCard(product: .previewProduct)
             .preferredColorScheme(.dark)
+            .frame(width: 200, height: 300)
     }
 }

@@ -20,6 +20,7 @@ struct ProductDetailView: View {
         navigationBarAppearance.backgroundColor = UIColor(Color("BackgroundColor"))
         UIScrollView.appearance().backgroundColor = UIColor(Color("BackgroundColor"))
         
+        // Set tab view page indicator color
         UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color("BackgroundColor"))
         UIPageControl.appearance().pageIndicatorTintColor = UIColor(Color("BackgroundColor")).withAlphaComponent(0.2)
     }
@@ -30,39 +31,39 @@ struct ProductDetailView: View {
         
         VStack(spacing: 0) {
                 
-            GeometryReader { geo in
+            ScrollView {
                 
-                ScrollView {
+                VStack(spacing: 10) {
                     
-                    VStack(spacing: 20) {
-                        
-                        // Product images
-                        TabView {
-                            
-                            // Main image
-                            ProductImage(url: model.product.mainImageUrl, size: geo.size.width-30)
-                            
-                            // Additional images
-                            if model.selectedColor?.imagesUrl != nil {
-                                ForEach(model.selectedColor!.imagesUrl!, id:\.self) { image in
-                                    ProductImage(url: image, size: geo.size.width-30)
-                                }
+                    // Product images
+                    TabView {
+                
+                        // Product images with selected color
+                        if model.selectedColor?.imagesUrl != nil {
+                            ForEach(model.selectedColor!.imagesUrl!, id:\.self) { image in
+                                ProductImage(url: image)
+                                    .padding(.horizontal, 15)
                             }
                         }
-                        .frame(height: geo.size.width-30)
-                        .tabViewStyle(.page)
-                        
-                        // Product features
-                        if let features = model.product.features {
-                            ProductFeatureList(features: features)
+                        // Show main image
+                        else {
+                            ProductImage(url: model.product.mainImageUrl)
+                                .padding(.horizontal, 15)
                         }
-                        
-                        // Product configurator
-                        ProductConfigurator(model: model)
-                            .padding(.horizontal, 15)
-                        
-                        Spacer()
                     }
+                    .tabViewStyle(.page)
+                    .aspectRatio(1, contentMode: .fit)
+                    
+                    // Product features
+                    if let features = model.product.features {
+                        ProductFeatureList(features: features)
+                    }
+                    
+                    // Product configurator
+                    ProductConfigurator(model: model)
+                        .padding(.horizontal, 15)
+                    
+                    Spacer()
                 }
             }
             
@@ -95,8 +96,6 @@ struct ProductDetailView: View {
                             .background(Color.accentColor)
                             .cornerRadius(100)
                     }
-                    Text("Doručení do týdne")
-                        .font(.caption)
                 }
             }
             .padding(.horizontal, 30)

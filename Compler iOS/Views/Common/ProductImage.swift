@@ -11,31 +11,35 @@ import SDWebImageSwiftUI
 struct ProductImage: View {
     
     let url: URL?
-    let size: CGFloat
     
     var body: some View {
         
-        WebImage(url: url)
-            .resizable()
-            .placeholder {
-                Image(systemName: "laptopcomputer")
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundColor(.gray)
-                    .padding(30)
-            }
-            .scaledToFit()
-            .padding()
-            .frame(width: size, height: size)
-            .background {
-                Color.white
-            }
-            .cornerRadius(10)
+        ZStack {
+            
+            Rectangle()
+                .foregroundColor(.white)
+                .aspectRatio(1, contentMode: .fit)
+                .cornerRadius(10)
+            
+            WebImage(url: url)
+                .resizable()
+                .placeholder {
+                    Image(systemName: "laptopcomputer")
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundColor(.gray)
+                        .padding(30)
+                }
+                .scaledToFit()
+                .padding()
+                .cornerRadius(10)
+        }
     }
 }
 
 struct ProductImage_Previews: PreviewProvider {
     static var previews: some View {
-        ProductImage(url: nil, size: 100)
+        ProductImage(url: nil)
+            .preferredColorScheme(.dark)
     }
 }

@@ -27,10 +27,19 @@ struct Product: Codable, Identifiable {
 }
 
 extension Product {
-    var lowestPrice: Int {
-        configurations.map { conf in
+    var lowestPriceFormatted: String {
+        
+        let p = configurations.map { conf in
             conf.price
         }.sorted().first ?? 0
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = "czk"
+        formatter.currencyGroupingSeparator = " "
+        formatter.currencyDecimalSeparator = ","
+        formatter.minimumFractionDigits = 0
+        return formatter.string(from: p as NSNumber)!
     }
 }
 

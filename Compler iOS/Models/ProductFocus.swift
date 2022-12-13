@@ -24,4 +24,15 @@ extension ProductFocus {
             return "Výkonné"
         }
     }
+    
+    var getIconName: String {
+        switch self {
+        case .games:
+            return "gamecontroller"
+        case .office:
+            return "house"
+        case .creative:
+            return "bolt.fill"
+        }
+    }
 }
