@@ -13,125 +13,96 @@ import SDWebImageSwiftUI
 struct CheckoutView: View {
     
     @ObservedObject var model: CheckoutViewModel
+    @Environment(\.dismiss) var dismiss
     
     init(checkoutProduct: CheckoutProduct) {
         self.model = CheckoutViewModel(checkoutProduct: checkoutProduct)
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            // Product preview
-            VStack(alignment: .leading, spacing: 10) {
-                Text("Produkt")
-                    .font(.title)
-                HStack {
-                    // Product image
-                    if model.checkoutProduct.product.mainImageUrl == nil {
-                        Image(systemName: "laptopcomputer")
-                            .resizable()
-                            .scaledToFit()
-                            .padding(8)
-                            .frame(width: 70, height: 70)
-                            .background {
-                                Color.gray
-                            }
-                            .cornerRadius(10)
-                    } else {
-                        WebImage(url: model.checkoutProduct.product.mainImageUrl)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 70, height: 70)
-                            .cornerRadius(10)
+        ScrollView {
+            
+            VStack(alignment: .leading, spacing: 30) {
+                
+                // Product preview
+                CheckoutProductPreview(product: model.checkoutProduct)
+                
+                // Contact details
+                CheckoutContactSection(email: $model.email, phone: $model.phone)
+                
+                // Shipping details
+                CheckoutAddressSection(firstName: $model.firstName, lastName: $model.lastName, street: $model.street, city: $model.city, zip: $model.zip)
+                
+                
+                Toggle("Doplnit fakturační údaje", isOn: $model.addBillingDetails)
+                    .toggleStyle(.switch)
+                
+                if model.addBillingDetails {
+                    CheckoutBillingSection(companyName: $model.companyName, cin: $model.billingCIN, vat: $model.billingVAT, firstName: $model.billingFirstName, lastName: $model.billingLastName, street: $model.billingStreet, city: $model.billingCity, zip: $model.billingZip)
+                }
+                
+                // Shipping
+                CheckoutSection(title: "Způsob doručení") {
+                    ForEach(model.availibleShippingMethods ?? []) { shipping in
+                        ShippingMethodButton(shippingMethod: shipping,
+                                             isSelected: model.shippingMethod == shipping) {
+                            model.shippingMethod = shipping
+                        }
                     }
-                    
-                    // Product info
-                    VStack(alignment: .leading, spacing: 5) {
-                        
-                        VStack(alignment: .leading) {
-                            Text(model.checkoutProduct.product.modelName)
+                }
+                
+                CheckoutSection(title: "Platba") {
+                    Text("Bezpečná platba kartou pomocí Stripe")
+                    CardField(paymentMethodParams: $model.paymentMethodParams)
+                }
+
+                Spacer()
+                
+                // Total
+                HStack {
+                    Spacer()
+                    Text("Celkem \(model.getOrderTotal().formattedAsPrice)")
+                        .font(.title2)
+                    Spacer()
+                }
+                
+                // Pay button
+                Button {
+                    model.pay()
+                } label: {
+                    HStack {
+                        Spacer()
+                        if model.paymentIntentClientSecret != nil {
+                            Text("Objednat a zaplatit")
                                 .bold()
-                            Text(model.checkoutProduct.configuration.formattedPrice)
+                        } else {
+                            ProgressView()
                         }
-                        
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text("CPU:")
-                                    .bold()
-                                    .fixedSize()
-                                Text(model.checkoutProduct.configuration.cpuName)
-                                    .lineLimit(1)
-                                
-                                if let gpuName = model.checkoutProduct.configuration.gpuName {
-                                    Text("GPU:")
-                                        .bold()
-                                        .fixedSize()
-                                    Text(gpuName)
-                                        .lineLimit(1)
-                                }
-                            }
-                            HStack {
-                                Text("RAM:")
-                                    .bold()
-                                    .fixedSize()
-                                Text(model.checkoutProduct.configuration.formattedMemorySize)
-                                    .lineLimit(1)
-                                
-                                Text("Uložiště:")
-                                    .bold()
-                                    .fixedSize()
-                                Text(model.checkoutProduct.configuration.formattedStorageSize)
-                                    .lineLimit(1)
-                            }
-                        }
-                        .font(.caption)
+                        Spacer()
                     }
-                    
-                    Spacer(minLength: 0)
                 }
+                .disabled(!model.canCreateOrder())
+                .buttonStyle(LargeButtonStyle())
+                .paymentConfirmationSheet(isConfirmingPayment: $model.confirmPayment, paymentIntentParams: model.paymentIntentParams, onCompletion: model.onPaymentComplete)
             }
-            
-            // Customer details
-            Text("Fakturační údaje")
-                .font(.title)
-            Text("Doručovací adresa")
-                .font(.title)
-            
-            // Shipping
-            Text("Způsob doručení")
-                .font(.title)
-            
-            // Payment
-            VStack(alignment: .leading, spacing: 10) {
-                Text("Platba")
-                    .font(.title)
-                Text("Bezpečná platba kartou pomocí Stripe")
-                CardField(paymentMethodParams: $model.paymentMethodParams)
-            }
-            Spacer()
-            
-            // Pay button
-            Button {
-                model.pay()
-            } label: {
-                HStack {
-                    Spacer()
-                    if model.paymentIntentClientSecret != nil {
-                        Text("Objednat a zaplatit")
-                            .bold()
-                    } else {
-                        ProgressView()
-                    }
-                    Spacer()
-                }
-            }
-            .buttonStyle(LargeButtonStyle())
-            .paymentConfirmationSheet(isConfirmingPayment: $model.confirmPayment, paymentIntentParams: model.paymentIntentParams, onCompletion: model.onPaymentComplete)
+            .padding()
         }
-        .padding()
+        .onTapGesture {
+            UIApplication.shared.windows.forEach { $0.endEditing(false) }
+        }
         .onAppear {
             model.startCheckout()
         }
+        .navigationBarBackButtonHidden(true)
         .navigationTitle("Objednávka")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button("Zrušit") {
+                    dismiss()
+                }
+            }
+        }
+        
     }
 }
 

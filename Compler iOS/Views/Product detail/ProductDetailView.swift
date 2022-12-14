@@ -25,8 +25,6 @@ struct ProductDetailView: View {
         UIPageControl.appearance().pageIndicatorTintColor = UIColor(Color("BackgroundColor")).withAlphaComponent(0.2)
     }
     
-    @State var showCheckout = false
-    
     var body: some View {
         
         VStack(spacing: 0) {
@@ -84,30 +82,25 @@ struct ProductDetailView: View {
                 Spacer()
                 
                 // Buy
-                VStack {
-                    Button {
-                        showCheckout.toggle()
-                    } label: {
-                        Text("Koupit")
-                            .foregroundColor(.white)
-                            .bold()
-                            .padding(8)
-                            .padding(.horizontal, 30)
-                            .background(Color.accentColor)
-                            .cornerRadius(100)
+                NavigationLink {
+                    if let checkoutProduct = model.getCheckoutProduct() {
+                        CheckoutView(checkoutProduct: checkoutProduct)
+                    } else {
+                        Text("Něco se pokazilo")
                     }
+                } label: {
+                    Text("Koupit")
+                        .foregroundColor(.white)
+                        .bold()
+                        .padding(8)
+                        .padding(.horizontal, 30)
+                        .background(Color.accentColor)
+                        .cornerRadius(100)
                 }
             }
             .padding(.horizontal, 30)
             .padding(.top)
             .background(Color("SecondaryBG"))
-            .sheet(isPresented: $showCheckout) {
-                if let checkoutProduct = model.getCheckoutProduct() {
-                    CheckoutView(checkoutProduct: checkoutProduct)
-                } else {
-                    Text("Něco se pokazilo")
-                }
-            }
         }
         .navigationTitle(model.product.modelName)
         .navigationBarTitleDisplayMode(.inline)

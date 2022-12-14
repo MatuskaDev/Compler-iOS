@@ -39,6 +39,10 @@ public struct CardField: UIViewRepresentable {
 //        }
         paymentCardField.delegate = context.coordinator
         paymentCardField.setContentHuggingPriority(.required, for: .vertical)
+        
+        paymentCardField.borderColor = .white
+        paymentCardField.cornerRadius = 8
+        paymentCardField.expirationPlaceholder = "MM/RR"
 
         return paymentCardField
     }
