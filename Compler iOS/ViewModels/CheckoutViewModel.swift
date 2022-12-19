@@ -15,12 +15,16 @@ class CheckoutViewModel: ObservableObject {
     
     var checkoutProduct: CheckoutProduct
     
+    // Status
+    @Published var order: Order?
+    @Published var processingOrder = false
+    @Published var paymentError: String?
+    
     // Payment
-    @Published var paymentIntentClientSecret: String?
     @Published var paymentMethodParams: STPPaymentMethodParams?
     @Published var confirmPayment = false
     var paymentIntentParams = STPPaymentIntentParams(clientSecret: "")
-
+    
     // Contact
     @Published var email = ""
     @Published var phone = ""
@@ -31,6 +35,8 @@ class CheckoutViewModel: ObservableObject {
     @Published var street = ""
     @Published var city = ""
     @Published var zip = ""
+    @Published var availibleShippingMethods: [ShippingMethod]?
+    @Published var shippingMethod: ShippingMethod?
     
     // Billing
     @Published var addBillingDetails = false
@@ -43,29 +49,20 @@ class CheckoutViewModel: ObservableObject {
     @Published var billingCIN = ""
     @Published var billingVAT = ""
     
-    @Published var availibleShippingMethods: [ShippingMethod]?
-    @Published var shippingMethod: ShippingMethod?
-    
     init(checkoutProduct: CheckoutProduct) {
         self.checkoutProduct = checkoutProduct
-        loadData()
+        getShippingMethods()
     }
     
-    func loadData() {
-        // TODO: Get shipping methods
-        availibleShippingMethods = [.init(id: "dfd", title: "PPL", description: "Rychlé doručení až domů", price: 129)]
-        shippingMethod = availibleShippingMethods?.first
-    }
-    
-    func startCheckout() {
-        Task {
-            do {
-                let secret = try await StripeManager.shared.getPaymentIntentSecret(amount: checkoutProduct.configuration.price)
+    private func getShippingMethods() {
+        DatabaseManager.shared.getShippingMethods { methods, error in
+            if let methods = methods {
                 DispatchQueue.main.async {
-                    self.paymentIntentClientSecret = secret
+                    self.availibleShippingMethods = methods
+                    self.shippingMethod = methods.first
                 }
-            } catch {
-                print("Error getting payment intent secret: \(error.localizedDescription)")
+            } else {
+                print("Error getting shipping methods: \(error?.localizedDescription ?? "Unknown error")")
             }
         }
     }
@@ -82,7 +79,8 @@ class CheckoutViewModel: ObservableObject {
         checkoutProduct.configuration.price + (shippingMethod?.price ?? 0)
     }
     
-    func createOrder() {
+    private func createOrder() -> Order {
+        
         let orderProduct = OrderProduct(productId: checkoutProduct.product.id,
                                         configurationId: checkoutProduct.configuration.id,
                                         colorId: checkoutProduct.color.id)
@@ -102,40 +100,68 @@ class CheckoutViewModel: ObservableObject {
                                                                             cin: billingCIN == "" ? nil : billingCIN,
                                                                             vat: billingVAT == "" ? nil : billingVAT)
         
-        let order = Order(product: orderProduct,
+        let order = Order(id: self.order?.id ?? UUID().uuidString,
+                          number: self.order?.number,
+                          product: orderProduct,
                           shippingMethodId: shippingMethod!.id,
                           shippingInfo: shippingDetails,
                           billingInfo: billingDetails,
                           customerId: nil,
                           contactPhone: phone,
-                          contactEmail: email)
+                          contactEmail: email,
+                          totalAmount: getOrderTotal())
         
-        // TODO: Upload to database
-    
+        return order
     }
 
     func pay() {
-        guard let paymentIntentClientSecret = paymentIntentClientSecret else { return }
-
-        // Collect card details
-        let paymentIntentParams = STPPaymentIntentParams(clientSecret: paymentIntentClientSecret)
-        paymentIntentParams.paymentMethodParams = paymentMethodParams
-        self.paymentIntentParams = paymentIntentParams
         
-        // Submit the payment
-        self.confirmPayment = true
+        withAnimation {
+            self.processingOrder = true
+            self.paymentError = nil
+        }
+        
+        Task {
+            
+            do {
+                // Create order and payment intent
+                var order = createOrder()
+                let paymentIntent = try await StripeManager.shared.getPaymentIntent(orderId: order.id, amount: order.totalAmount)
+                order.paymentId = paymentIntent.id
+                
+                // Set order number
+                if order.number == nil {
+                    order.number = try await DatabaseManager.shared.getOrderNumber()
+                }
+                
+                // Save order
+                self.order = order
+                try DatabaseManager.shared.saveOrder(order: order)
+                
+                // Collect card details
+                let paymentIntentParams = STPPaymentIntentParams(clientSecret: paymentIntent.secret)
+                paymentIntentParams.paymentMethodParams = paymentMethodParams
+                self.paymentIntentParams = paymentIntentParams
+                
+                // Submit the payment
+                DispatchQueue.main.async {
+                    self.confirmPayment = true
+                }
+            } catch {
+                print("Error \(error.localizedDescription)")
+            }
+        }
     }
 
     func onPaymentComplete(status: STPPaymentHandlerActionStatus, paymentIntent: STPPaymentIntent?, error: Error?) {
-        switch status {
-        case .succeeded:
-            print("Payment succeeded!")
-        case .failed:
-            print("Payment failed: \(error?.localizedDescription ?? "")")
-        case .canceled:
-            print("Payment canceled")
-        @unknown default:
-            print("Unknown status")
+        
+        withAnimation {
+            if status == .succeeded {
+                self.order?.paymentStatus = .paid
+            } else {
+                paymentError = error?.localizedDescription
+            }
         }
+        self.processingOrder = false
     }
 }

@@ -17,6 +17,7 @@ class StripeManager {
         functions.useEmulator(withHost: "http://localhost", port: 5001)
     }
     
+    // Get stripe publishable key
     func getPublishableKey() async {
         do {
             let data = try await functions.httpsCallable("getStripePublishableKey").call().data as! [String: Any]
@@ -28,11 +29,24 @@ class StripeManager {
         }
     }
 
-    func getPaymentIntentSecret(amount: Int) async throws -> String {
+    // Get stripe payment intent client secret and id
+    func getPaymentIntent(orderId: String, amount: Int) async throws -> (id: String, secret: String) {
         let convertedAmount = amount * 100
-        let data = try await functions.httpsCallable("getStripePaymentIntent").call(["amount" : convertedAmount]).data as! [String: Any]
-        let secret = data["secret"] as! String
-        print("Payment intent client secret: \(secret)")
-        return secret
+        let data = try await functions.httpsCallable("getStripePaymentIntent").call(["amount" : convertedAmount, "orderId" : orderId]).data as! [String: Any]
+        
+        let secret = data["clientSecret"] as! String
+        let id = data["paymentIntentId"] as! String
+        
+        print("Payment intent id: \(id)")
+        
+        return (id: id, secret: secret)
     }
+    
+    // Get order id using payment intent secret
+    func getOrderId(paymentIntentId: String) async throws -> String {
+        let data = try await functions.httpsCallable("getOrderId").call(["paymentIntentId" : paymentIntentId]).data as! [String: Any]
+        let orderId = data["orderId"] as! String
+        return orderId
+    }
+    
 }

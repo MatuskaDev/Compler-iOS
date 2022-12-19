@@ -7,12 +7,16 @@
 
 import Foundation
 
-struct Order: Identifiable {
+struct Order: Identifiable, Codable {
     
     var id: String = UUID().uuidString
+    var number: Int? = nil
     var createdAt: Date = Date()
     var orderStatus: OrderStatus = .processing
     var paymentStatus: PaymentStatus = .unpaid
+    var paymentId: String? = nil
+    var trackingNumber: String? = nil
+    var trackingURL: URL? = nil
     
     // Order details
     let product: OrderProduct
@@ -25,34 +29,49 @@ struct Order: Identifiable {
     let customerId: String?
     let contactPhone: String
     let contactEmail: String
+    
+    let totalAmount: Int
 }
 
-enum OrderStatus {
+extension Order {
+    static let previewOrder = Order(
+        product: OrderProduct(productId: "1", configurationId: "1", colorId: "1"),
+        shippingMethodId: "1",
+        shippingInfo: Address(firstName: "Lukáš", lastName: "Matuška", street: "Křižíkova", city: "Brno", zip: "60200"),
+        billingInfo: Address(firstName: "Lukáš", lastName: "Matuška", street: "Křižíkova", city: "Brno", zip: "60200"),
+        customerId: "1",
+        contactPhone: "+420 777 777 777",
+        contactEmail: "test@gmail.com",
+        totalAmount: 1000
+    )
+}
+
+enum OrderStatus: Codable {
     case processing
     case shipped
     case delivered
     case canceled
 }
 
-struct OrderProduct {
+struct OrderProduct: Codable {
     let productId: String
     let configurationId: String
     let colorId: String
 }
 
-struct ShippingMethod: Identifiable, Equatable {
+struct ShippingMethod: Identifiable, Equatable, Codable {
     let id: String
     let title: String
     let description: String
     let price: Int
 }
 
-enum PaymentStatus {
+enum PaymentStatus: Codable {
     case unpaid
     case paid
 }
 
-struct Address {
+struct Address: Codable {
     let firstName: String
     let lastName: String
     let street: String

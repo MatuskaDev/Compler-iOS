@@ -7,7 +7,19 @@
 
 import SwiftUI
 
+class NavigationHelper: ObservableObject {
+    @Published var navigation: Navigation?
+    
+    enum Navigation {
+        case account
+        case list
+        case recommender
+    }
+}
+
 struct DashboardView: View {
+    
+    @ObservedObject var navigationHelper = NavigationHelper()
     
     var body: some View {
         
@@ -50,9 +62,7 @@ struct DashboardView: View {
                     .padding(8)
                     .frame(maxWidth: 230)
                     
-                    NavigationLink {
-                        ProductListView()
-                    } label: {
+                    NavigationLink(destination: ProductListView(), tag: NavigationHelper.Navigation.list, selection: $navigationHelper.navigation) {
                         Text("Zobrazit nabídku")
                             .font(.title3)
                     }
@@ -62,6 +72,7 @@ struct DashboardView: View {
             }
             .background(Color("BackgroundColor"))
         }
+        .environmentObject(navigationHelper)
         .preferredColorScheme(.dark)
     }
 }
