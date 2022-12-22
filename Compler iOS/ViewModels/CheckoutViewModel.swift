@@ -18,7 +18,7 @@ class CheckoutViewModel: ObservableObject {
     // Status
     @Published var order: Order?
     @Published var processingOrder = false
-    @Published var paymentError: String?
+    @Published var error: CustomError?
     
     // Payment
     @Published var paymentMethodParams: STPPaymentMethodParams?
@@ -118,7 +118,7 @@ class CheckoutViewModel: ObservableObject {
         
         withAnimation {
             self.processingOrder = true
-            self.paymentError = nil
+            self.error = nil
         }
         
         Task {
@@ -135,7 +135,6 @@ class CheckoutViewModel: ObservableObject {
                 }
                 
                 // Save order
-                self.order = order
                 try DatabaseManager.shared.saveOrder(order: order)
                 
                 // Collect card details
@@ -144,24 +143,28 @@ class CheckoutViewModel: ObservableObject {
                 self.paymentIntentParams = paymentIntentParams
                 
                 // Submit the payment
+                let saveOrder = order
                 DispatchQueue.main.async {
+                    self.order = saveOrder
                     self.confirmPayment = true
                 }
             } catch {
-                print("Error \(error.localizedDescription)")
+                self.error = CustomError(title: "Objednávku nelze vytvořit", description: error.localizedDescription)
             }
         }
     }
 
     func onPaymentComplete(status: STPPaymentHandlerActionStatus, paymentIntent: STPPaymentIntent?, error: Error?) {
         
-        withAnimation {
-            if status == .succeeded {
-                self.order?.paymentStatus = .paid
-            } else {
-                paymentError = error?.localizedDescription
+        DispatchQueue.main.async {
+            withAnimation {
+                if status == .succeeded {
+                    self.order?.paymentStatus = .paid
+                } else {
+                    self.error = CustomError(title: "Chyba platby", description: error?.localizedDescription ?? "")
+                }
             }
+            self.processingOrder = false
         }
-        self.processingOrder = false
     }
 }

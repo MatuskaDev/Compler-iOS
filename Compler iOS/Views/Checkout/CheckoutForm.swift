@@ -63,37 +63,20 @@ struct CheckoutForm: View {
                     Spacer()
                 }
                 
-                // Payment error
-                if let paymentError = model.paymentError {
-                    HStack {
-                        Spacer()
-                        VStack {
-                            Text("Chyba platby")
-                                .bold()
-                            Text(paymentError)
-                        }
-                        Spacer()
-                    }
-                    .padding()
-                    .background {
-                        Color.red
-                    }
-                    .cornerRadius(8)
+                // Error
+                if let error = model.error {
+                    CheckoutErrorSection(error: error)
                 }
                 
                 // Pay button
                 Button {
                     model.pay()
                 } label: {
-                    HStack {
-                        Spacer()
-                        if !model.processingOrder {
-                            Text("Objednat a zaplatit")
-                                .bold()
-                        } else {
-                            ProgressView()
-                        }
-                        Spacer()
+                    if !model.processingOrder {
+                        Text("Objednat a zaplatit")
+                            .bold()
+                    } else {
+                        ProgressView()
                     }
                 }
                 .disabled(!model.canCreateOrder())

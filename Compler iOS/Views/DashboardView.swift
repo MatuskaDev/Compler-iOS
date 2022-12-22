@@ -51,6 +51,7 @@ struct DashboardView: View {
                             .bold()
                     }
                     .buttonStyle(LargeButtonStyle())
+                    .padding(.horizontal)
                     
                     HStack(spacing: 10) {
                         Rectangle()

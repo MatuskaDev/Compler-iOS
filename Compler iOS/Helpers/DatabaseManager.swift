@@ -55,6 +55,22 @@ class DatabaseManager {
             }
     }
 
+    func getShippingMethod(id: String, completion: @escaping (ShippingMethod?, Error?) -> Void) {
+        
+        let collection = db.collection("shippingMethods")
+        let doc = collection.document(id)
+        
+        Task.init {
+            do {
+                let data = try await doc.getDocument().data(as: ShippingMethod.self)
+                completion(data, nil)
+            }
+            catch {
+                completion(nil, error)
+            }
+        }
+    }
+
     func saveOrder(order: Order) throws {
         let collection = db.collection("orders")
         let doc = collection.document(order.id)

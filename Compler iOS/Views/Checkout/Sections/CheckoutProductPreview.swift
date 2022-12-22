@@ -32,18 +32,14 @@ struct CheckoutProductPreview: View {
             VStack(alignment: .leading, spacing: 5) {
                 
                 VStack(alignment: .leading) {
-                    Spacer(minLength: 0)
+                    
                     Text("\(product.product.brand) \(product.product.modelName)")
                         .bold()
                     Text(product.configuration.formattedPrice)
-                    
-                    Spacer(minLength: 0)
-                    
+                        .padding(.bottom, 5)
                     Text(productText)
                         .font(.caption)
                 }
-                
-                
             }
             
             Spacer(minLength: 0)

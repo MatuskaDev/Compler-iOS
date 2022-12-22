@@ -37,8 +37,8 @@ extension Order {
     static let previewOrder = Order(
         product: OrderProduct(productId: "1", configurationId: "1", colorId: "1"),
         shippingMethodId: "1",
-        shippingInfo: Address(firstName: "Lukáš", lastName: "Matuška", street: "Křižíkova", city: "Brno", zip: "60200"),
-        billingInfo: Address(firstName: "Lukáš", lastName: "Matuška", street: "Křižíkova", city: "Brno", zip: "60200"),
+        shippingInfo: Address(firstName: "Lukáš", lastName: "Matuška", street: "Křižíkova 201", city: "Brno", zip: "60200"),
+        billingInfo: Address(firstName: "Lukáš", lastName: "Matuška", street: "Křižíkova 201", city: "Brno", zip: "60200"),
         customerId: "1",
         contactPhone: "+420 777 777 777",
         contactEmail: "test@gmail.com",

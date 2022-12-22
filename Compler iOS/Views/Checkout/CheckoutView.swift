@@ -22,7 +22,7 @@ struct CheckoutView: View {
         
         Group {
             if model.order?.paymentStatus == .paid {
-                CheckoutConfirmation()
+                CheckoutConfirmation(order: model.order!, product: model.checkoutProduct)
             } else {
                 CheckoutForm()
             }

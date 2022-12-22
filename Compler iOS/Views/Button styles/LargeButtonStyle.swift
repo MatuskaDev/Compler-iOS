@@ -10,12 +10,16 @@ import SwiftUI
 
 struct LargeButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .font(.title3)
-            .foregroundColor(.white)
-            .padding(.vertical)
-            .padding(.horizontal, 40)
-            .background(Color.accentColor)
-            .cornerRadius(100)
+        HStack {
+            Spacer(minLength: 0)
+            configuration.label
+            Spacer(minLength: 0)
+        }
+        .font(.title3.bold())
+        .foregroundColor(.white)
+        .padding(.vertical)
+        .padding(.horizontal, 40)
+        .background(Color.accentColor)
+        .cornerRadius(100)
     }
 }
