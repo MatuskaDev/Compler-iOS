@@ -14,7 +14,7 @@ class StripeManager {
     var functions = Functions.functions()
     
     private init() {
-        functions.useEmulator(withHost: "http://localhost", port: 5001)
+        //functions.useEmulator(withHost: "http://localhost", port: 5001)
     }
     
     // Get stripe publishable key

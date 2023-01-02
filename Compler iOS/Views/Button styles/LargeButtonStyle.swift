@@ -17,9 +17,19 @@ struct LargeButtonStyle: ButtonStyle {
         }
         .font(.title3.bold())
         .foregroundColor(.white)
-        .padding(.vertical)
         .padding(.horizontal, 40)
+        .frame(height: 55)
         .background(Color.accentColor)
         .cornerRadius(100)
+    }
+}
+
+struct LargeButtonStyle_Previews: PreviewProvider {
+    static var previews: some View {
+        Button("Test", action: {
+            //
+        })
+        .buttonStyle(LargeButtonStyle())
+        .preferredColorScheme(.dark)
     }
 }

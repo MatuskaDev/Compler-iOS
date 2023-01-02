@@ -91,4 +91,16 @@ class DatabaseManager {
         let result = try await function.httpsCallable("getOrderNumber").call().data as! [String: Any]
         return result["orderNumber"] as! Int
     }
+    
+    func saveUser(_ user: User) throws {
+        let collection = db.collection("users")
+        let doc = collection.document(user.id)
+        try doc.setData(from: user)
+    }
+    
+    func getUser(id: String) async throws -> User {
+        let collection = db.collection("users")
+        let doc = collection.document(id)
+        return try await doc.getDocument().data(as: User.self)
+    }
 }

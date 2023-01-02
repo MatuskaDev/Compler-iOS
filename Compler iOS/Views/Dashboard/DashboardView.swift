@@ -28,7 +28,10 @@ struct DashboardView: View {
             VStack {
                 
                 // Acount card
-                Text("Účet")
+                NavigationLink(destination: AccountView(), tag: NavigationHelper.Navigation.account, selection: $navigationHelper.navigation) {
+                    AccountCard()
+                }
+                .buttonStyle(.plain)
                 
                 Spacer()
                 
