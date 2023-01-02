@@ -11,6 +11,7 @@ struct CheckoutForm: View {
     
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var model: CheckoutViewModel
+    @ObservedObject var userManager = UserManager.shared
     
     var body: some View {
         
@@ -21,36 +22,49 @@ struct CheckoutForm: View {
                 // Product preview
                 CheckoutProductPreview(product: model.checkoutProduct)
                 
-                // Contact details
-                CheckoutContactSection(email: $model.email, phone: $model.phone)
-                
-                // Shipping details
-                CheckoutAddressSection(firstName: $model.firstName, lastName: $model.lastName, street: $model.street, city: $model.city, zip: $model.zip)
-                
-                // Billing details
+                // Checkout sections
                 Group {
-                    Toggle("Doplnit fakturační údaje", isOn: $model.addBillingDetails)
-                        .toggleStyle(.switch)
                     
-                    if model.addBillingDetails {
-                        CheckoutBillingSection(companyName: $model.companyName, cin: $model.billingCIN, vat: $model.billingVAT, firstName: $model.billingFirstName, lastName: $model.billingLastName, street: $model.billingStreet, city: $model.billingCity, zip: $model.billingZip)
-                    }
-                }
-                
-                // Shipping
-                CheckoutSection(title: "Způsob doručení") {
-                    ForEach(model.availibleShippingMethods ?? []) { shipping in
-                        ShippingMethodButton(shippingMethod: shipping,
-                                             isSelected: model.shippingMethod == shipping) {
-                            model.shippingMethod = shipping
+                    // Account
+                    CheckoutAccountSection()
+                    
+                    // Contact details
+                    CheckoutContactSection(email: $model.email, phone: $model.phone)
+                    
+                    // Shipping details
+                    CheckoutAddressSection(firstName: $model.firstName, lastName: $model.lastName, street: $model.street, city: $model.city, zip: $model.zip)
+                    
+                    // Billing details
+                    Group {
+                        Toggle("Doplnit fakturační údaje", isOn: $model.addBillingDetails)
+                            .toggleStyle(.switch)
+                        
+                        if model.addBillingDetails {
+                            CheckoutBillingSection(companyName: $model.companyName, cin: $model.billingCIN, vat: $model.billingVAT, firstName: $model.billingFirstName, lastName: $model.billingLastName, street: $model.billingStreet, city: $model.billingCity, zip: $model.billingZip)
                         }
                     }
-                }
-                
-                // Payment
-                CheckoutSection(title: "Platba") {
-                    Text("Bezpečná platba kartou pomocí Stripe")
-                    CardField(paymentMethodParams: $model.paymentMethodParams)
+                    
+                    // Save details switch
+                    if userManager.isSignedIn() {
+                        Toggle("Uložit údaje na příště", isOn: $model.userSaveInfo)
+                            .toggleStyle(.switch)
+                    }
+                    
+                    // Shipping
+                    CheckoutSection(title: "Způsob doručení") {
+                        ForEach(model.availibleShippingMethods ?? []) { shipping in
+                            ShippingMethodButton(shippingMethod: shipping,
+                                                 isSelected: model.shippingMethod == shipping) {
+                                model.shippingMethod = shipping
+                            }
+                        }
+                    }
+                    
+                    // Payment
+                    CheckoutSection(title: "Platba") {
+                        Text("Bezpečná platba kartou pomocí Stripe")
+                        CardField(paymentMethodParams: $model.paymentMethodParams)
+                    }
                 }
 
                 Spacer()
@@ -71,6 +85,7 @@ struct CheckoutForm: View {
                 // Pay button
                 Button {
                     model.pay()
+                    UIApplication.shared.windows.forEach { $0.endEditing(false) }
                 } label: {
                     if !model.processingOrder {
                         Text("Objednat a zaplatit")
@@ -84,6 +99,11 @@ struct CheckoutForm: View {
                 .paymentConfirmationSheet(isConfirmingPayment: $model.confirmPayment, paymentIntentParams: model.paymentIntentParams, onCompletion: model.onPaymentComplete)
             }
             .padding()
+        }
+        .onChange(of: userManager.isSignedIn()) { isSignedIn in
+            if isSignedIn {
+                model.loadUserSavedDetails()
+            }
         }
         .onTapGesture {
             UIApplication.shared.windows.forEach { $0.endEditing(false) }
@@ -103,5 +123,6 @@ struct CheckoutForm_Previews: PreviewProvider {
     static var previews: some View {
         CheckoutForm()
             .environmentObject(CheckoutViewModel(checkoutProduct: .previewCheckoutProduct))
+            .preferredColorScheme(.dark)
     }
 }

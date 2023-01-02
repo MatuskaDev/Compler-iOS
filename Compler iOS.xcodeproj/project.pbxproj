@@ -77,6 +77,7 @@
 		7E97AA212944FE16007B4DC8 /* LargeButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E97AA202944FE16007B4DC8 /* LargeButtonStyle.swift */; };
 		7E9C24CE2950F23B00CD96CC /* CheckoutConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9C24CD2950F23B00CD96CC /* CheckoutConfirmation.swift */; };
 		7E9C24D02950F24B00CD96CC /* CheckoutForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E9C24CF2950F24B00CD96CC /* CheckoutForm.swift */; };
+		7EA15AC829633D4C00212AA1 /* CheckoutAccountSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA15AC729633D4C00212AA1 /* CheckoutAccountSection.swift */; };
 		7EC4B3A92920E73700ABEC90 /* ProductOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC4B3A82920E73700ABEC90 /* ProductOption.swift */; };
 /* End PBXBuildFile section */
 
@@ -139,6 +140,7 @@
 		7E97AA202944FE16007B4DC8 /* LargeButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeButtonStyle.swift; sourceTree = "<group>"; };
 		7E9C24CD2950F23B00CD96CC /* CheckoutConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutConfirmation.swift; sourceTree = "<group>"; };
 		7E9C24CF2950F24B00CD96CC /* CheckoutForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutForm.swift; sourceTree = "<group>"; };
+		7EA15AC729633D4C00212AA1 /* CheckoutAccountSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutAccountSection.swift; sourceTree = "<group>"; };
 		7EC4B3A82920E73700ABEC90 /* ProductOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductOption.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -371,6 +373,7 @@
 				7E793582294A2EB300DD4969 /* CheckoutContactSection.swift */,
 				7E79357E294A262C00DD4969 /* CheckoutBillingSection.swift */,
 				7E0ED8642952333500B77320 /* CheckoutErrorSection.swift */,
+				7EA15AC729633D4C00212AA1 /* CheckoutAccountSection.swift */,
 			);
 			path = Sections;
 			sourceTree = "<group>";
@@ -536,6 +539,7 @@
 				7E09B1AF29393ECA00960821 /* ProductFeatureCell.swift in Sources */,
 				7E7CF802295DA4B0001B5347 /* AccountView.swift in Sources */,
 				7E97AA212944FE16007B4DC8 /* LargeButtonStyle.swift in Sources */,
+				7EA15AC829633D4C00212AA1 /* CheckoutAccountSection.swift in Sources */,
 				7E7935792949160700DD4969 /* Order.swift in Sources */,
 				7E91DC89291C19F20079B186 /* ProductViewModel.swift in Sources */,
 				7E7CF806295E1B52001B5347 /* LoginViewModel.swift in Sources */,

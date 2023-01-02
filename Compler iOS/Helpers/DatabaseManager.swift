@@ -96,6 +96,10 @@ class DatabaseManager {
         let collection = db.collection("users")
         let doc = collection.document(user.id)
         try doc.setData(from: user)
+        
+        DispatchQueue.main.async {
+            UserManager.shared.user = user
+        }
     }
     
     func getUser(id: String) async throws -> User {

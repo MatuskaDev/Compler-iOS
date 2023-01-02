@@ -36,7 +36,7 @@ class UserManager: ObservableObject {
         do {
             let result = try await Auth.auth().signInAnonymously()
             DispatchQueue.main.async {
-                self.user = User(id: result.user.uid, isAnonymous: true)
+                self.user = User(id: result.user.uid)
                 print("Create anonymous user")
             }
         } catch {
@@ -67,7 +67,7 @@ class UserManager: ObservableObject {
     }
     
     func isSignedIn() -> Bool {
-        if user?.isAnonymous ?? true {
+        if Auth.auth().currentUser?.isAnonymous ?? true {
             return false
         } else {
             return true

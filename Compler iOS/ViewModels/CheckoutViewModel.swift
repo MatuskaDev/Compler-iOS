@@ -49,9 +49,40 @@ class CheckoutViewModel: ObservableObject {
     @Published var billingCIN = ""
     @Published var billingVAT = ""
     
+    @Published var userSaveInfo = true
+    
     init(checkoutProduct: CheckoutProduct) {
         self.checkoutProduct = checkoutProduct
         getShippingMethods()
+        
+        if UserManager.shared.isSignedIn() {
+            loadUserSavedDetails()
+        }
+    }
+    
+    func loadUserSavedDetails() {
+        if let user = UserManager.shared.user {
+            
+            email = user.email ?? ""
+            phone = user.savedPhoneNumber ?? ""
+            
+            firstName = user.savedShippingInfo?.firstName ?? ""
+            lastName = user.savedShippingInfo?.lastName ?? ""
+            street = user.savedShippingInfo?.street ?? ""
+            city = user.savedShippingInfo?.city ?? ""
+            zip = user.savedShippingInfo?.zip ?? ""
+            
+            addBillingDetails = user.savedAddBillingInfoPreference ?? false
+            
+            billingFirstName = user.savedBillingInfo?.firstName ?? ""
+            billingLastName = user.savedBillingInfo?.lastName ?? ""
+            billingStreet = user.savedBillingInfo?.street ?? ""
+            billingCity = user.savedBillingInfo?.city ?? ""
+            billingZip = user.savedBillingInfo?.zip ?? ""
+            companyName = user.savedBillingInfo?.companyName ?? ""
+            billingCIN = user.savedBillingInfo?.cin ?? ""
+            billingVAT = user.savedBillingInfo?.vat ?? ""
+        }
     }
     
     private func getShippingMethods() {
@@ -106,7 +137,7 @@ class CheckoutViewModel: ObservableObject {
                           shippingMethodId: shippingMethod!.id,
                           shippingInfo: shippingDetails,
                           billingInfo: billingDetails,
-                          customerId: nil,
+                          customerId: UserManager.shared.user?.id,
                           contactPhone: phone,
                           contactEmail: email,
                           totalAmount: getOrderTotal())
@@ -147,6 +178,21 @@ class CheckoutViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.order = saveOrder
                     self.confirmPayment = true
+                }
+                
+                // Save details for user
+                if self.userSaveInfo {
+                    var user = UserManager.shared.user!
+                    user.savedPhoneNumber = saveOrder.contactPhone
+                    user.savedShippingInfo = saveOrder.shippingInfo
+                    user.savedAddBillingInfoPreference = self.addBillingDetails
+                    user.savedBillingInfo = saveOrder.billingInfo
+                    
+                    do {
+                        try DatabaseManager.shared.saveUser(user)
+                    } catch {
+                        print("Error saving user details")
+                    }
                 }
             } catch {
                 self.error = CustomError(title: "Objednávku nelze vytvořit", description: error.localizedDescription)

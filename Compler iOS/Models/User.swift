@@ -12,9 +12,8 @@ struct User: Codable {
     var email: String?
     var name: String?
     
-    var isAnonymous = false
-    
-    private enum CodingKeys: String, CodingKey {
-        case id, email, name
-    }
+    var savedPhoneNumber: String?
+    var savedShippingInfo: Address?
+    var savedAddBillingInfoPreference: Bool?
+    var savedBillingInfo: Address?
 }

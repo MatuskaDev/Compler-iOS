@@ -12,10 +12,10 @@ struct AccountView: View {
     @ObservedObject var userManager = UserManager.shared
     
     var body: some View {
-        if userManager.user?.isAnonymous ?? true {
-            LoginView()
-        } else {
+        if userManager.isSignedIn() {
             AccountDashboardView()
+        } else {
+            LoginView()
         }
     }
 }
