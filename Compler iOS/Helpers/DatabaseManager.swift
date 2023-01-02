@@ -92,6 +92,15 @@ class DatabaseManager {
         return result["orderNumber"] as! Int
     }
     
+    func getOrders(userId: String) async throws -> [Order] {
+        let collection = db.collection("orders")
+        let query = collection.whereField("customerId", isEqualTo: userId)
+        let data = try await query.getDocuments().documents.map({ doc in
+            try doc.data(as: Order.self)
+        })
+        return data
+    }
+    
     func saveUser(_ user: User) throws {
         let collection = db.collection("users")
         let doc = collection.document(user.id)

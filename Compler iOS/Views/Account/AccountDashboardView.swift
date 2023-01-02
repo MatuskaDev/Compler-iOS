@@ -35,12 +35,13 @@ struct AccountDashboardView: View {
             
             List {
                 NavigationLink("Historie objednávek") {
-                    //
+                    OrderHistoryView()
                 }
                 .listRowBackground(Color("SecondaryBG"))
+                
                 Section {
                     NavigationLink("Uložené adresy") {
-                        //
+                        AccountSavedDetailsView()
                     }
                     NavigationLink("Podpora") {
                         

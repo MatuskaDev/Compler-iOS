@@ -35,6 +35,7 @@ struct Order: Identifiable, Codable {
 
 extension Order {
     static let previewOrder = Order(
+        createdAt: Date.now,
         product: OrderProduct(productId: "1", configurationId: "1", colorId: "1"),
         shippingMethodId: "1",
         shippingInfo: Address(firstName: "Lukáš", lastName: "Matuška", street: "Křižíkova 201", city: "Brno", zip: "60200"),
