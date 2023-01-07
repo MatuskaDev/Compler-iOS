@@ -43,7 +43,7 @@ struct AccountDashboardView: View {
                         AccountSavedDetailsView()
                     }
                     NavigationLink("Podpora") {
-                        
+                        SupportView()
                     }
                 }
                 
