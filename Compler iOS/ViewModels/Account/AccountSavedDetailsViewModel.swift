@@ -8,6 +8,8 @@
 import Foundation
 
 class AccountSavedDetailsViewModel: ObservableObject {
+    
+    // Textfield bindings
     @Published var firstName = ""
     @Published var lastName = ""
     @Published var street = ""
@@ -27,6 +29,7 @@ class AccountSavedDetailsViewModel: ObservableObject {
         loadUserSavedDetails()
     }
     
+    // Get details from db
     func loadUserSavedDetails() {
         if let user = UserManager.shared.user {
             
@@ -49,6 +52,7 @@ class AccountSavedDetailsViewModel: ObservableObject {
         }
     }
     
+    // Save to db
     func save() throws {
         let shippingDetails = Address(firstName: firstName,
                                       lastName: lastName,

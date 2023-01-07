@@ -14,7 +14,7 @@ struct CheckoutAccountSection: View {
     @State private var showLoginSheet = false
     
     var body: some View {
-        CheckoutSection(title: "Compler účet") {
+        LabeledVStack("Compler účet") {
             Text("sledujte svou objednávku a uložte si údaje na příště.")
             
             if userManager.isSignedIn(){
@@ -43,7 +43,7 @@ struct CheckoutAccountSection: View {
             }
         }
         .sheet(isPresented: $showLoginSheet) {
-            LoginView()
+            AccountLoginView()
         }
         .onChange(of: userManager.isSignedIn()) { newValue in
             showLoginSheet = false

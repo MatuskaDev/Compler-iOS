@@ -66,6 +66,11 @@ class UserManager: ObservableObject {
         print("Sign in succesful")
     }
     
+    func signOut() async throws {
+        try Auth.auth().signOut()
+        await signInAnonymous()
+    }
+    
     func isSignedIn() -> Bool {
         if Auth.auth().currentUser?.isAnonymous ?? true {
             return false

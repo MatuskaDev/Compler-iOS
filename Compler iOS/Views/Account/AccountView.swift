@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Entry user account view
 struct AccountView: View {
     
     @ObservedObject var userManager = UserManager.shared
@@ -15,7 +16,7 @@ struct AccountView: View {
         if userManager.isSignedIn() {
             AccountDashboardView()
         } else {
-            LoginView()
+            AccountLoginView()
         }
     }
 }

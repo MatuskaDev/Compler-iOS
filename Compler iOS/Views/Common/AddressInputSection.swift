@@ -1,5 +1,5 @@
 //
-//  CheckoutBillingSection.swift
+//  CheckoutAddressSection.swift
 //  Compler iOS
 //
 //  Created by Lukáš Matuška on 14.12.2022.
@@ -7,11 +7,8 @@
 
 import SwiftUI
 
-struct CheckoutBillingSection: View {
+struct AddressInputSection: View {
     
-    @Binding var companyName: String
-    @Binding var cin: String
-    @Binding var vat: String
     @Binding var firstName: String
     @Binding var lastName: String
     @Binding var street: String
@@ -19,9 +16,6 @@ struct CheckoutBillingSection: View {
     @Binding var zip: String
 
     enum Field {
-        case companyName
-        case cin
-        case vat
         case firstName
         case lastName
         case street
@@ -33,20 +27,7 @@ struct CheckoutBillingSection: View {
     
     var body: some View {
         
-        CheckoutSection(title: "Fakturační adresa") {
-            TextField("Společnost", text: $companyName)
-                .focused($focusedField, equals: .companyName)
-                .textContentType(.organizationName)
-                .submitLabel(.next)
-            
-            TextField("IČO", text: $cin)
-                .focused($focusedField, equals: .cin)
-                .submitLabel(.next)
-            
-            TextField("DIČ", text: $vat)
-                .focused($focusedField, equals: .vat)
-                .submitLabel(.next)
-            
+        LabeledVStack("Doručovací adresa") {
             HStack {
                 TextField("Jméno", text: $firstName)
                     .focused($focusedField, equals: .firstName)
@@ -79,12 +60,6 @@ struct CheckoutBillingSection: View {
         .textFieldStyle(OutlineTextFieldStyle())
         .onSubmit {
             switch focusedField {
-            case .companyName:
-                focusedField = .cin
-            case .cin:
-                focusedField = .vat
-            case .vat:
-                focusedField = .firstName
             case .firstName:
                 focusedField = .lastName
             case .lastName:
@@ -102,8 +77,9 @@ struct CheckoutBillingSection: View {
     }
 }
 
-struct CheckoutBillingSection_Previews: PreviewProvider {
+struct CheckoutAddressSection_Previews: PreviewProvider {
     static var previews: some View {
-        CheckoutBillingSection(companyName: .constant(""), cin: .constant(""), vat: .constant(""), firstName: .constant(""), lastName: .constant(""), street: .constant(""), city: .constant(""), zip: .constant(""))
+        AddressInputSection(firstName: .constant(""), lastName: .constant(""), street: .constant(""), city: .constant(""), zip: .constant(""))
+            .preferredColorScheme(.dark)
     }
 }

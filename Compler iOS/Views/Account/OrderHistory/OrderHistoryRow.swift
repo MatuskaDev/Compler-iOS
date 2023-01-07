@@ -7,10 +7,12 @@
 
 import SwiftUI
 
+/// List cell representing order
 struct OrderHistoryRow: View {
     
     var order: Order
     
+    // Order title
     var title: String {
         if let number = order.number {
             return "Objednávka č. \(number)"
@@ -19,6 +21,7 @@ struct OrderHistoryRow: View {
         }
     }
     
+    // Status label
     var status: String {
         switch order.orderStatus {
         case .processing:
@@ -32,6 +35,7 @@ struct OrderHistoryRow: View {
         }
     }
     
+    // Status icon
     var icon: String {
         switch order.orderStatus {
         case .processing:
@@ -45,6 +49,7 @@ struct OrderHistoryRow: View {
         }
     }
     
+    // Formatted order date
     var date: String {
         order.createdAt.formatted(date: .numeric, time: .omitted)
     }

@@ -12,6 +12,8 @@ struct AccountSettingsView: View {
     @ObservedObject var userManager = UserManager.shared
     
     @State var isProcessing = false
+    
+    // Textfield bindings
     @State var newName = ""
     @State var emailPassword = ""
     @State var newEmail = ""
@@ -19,6 +21,7 @@ struct AccountSettingsView: View {
     @State var newPassword = ""
     @State var newPasswordRepeat = ""
     
+    // Alert bindings
     @State var showSuccessAlert = false
     @State var showErrorAlert = false
     @State var alertError: String?
@@ -78,9 +81,11 @@ struct AccountSettingsView: View {
             }
         }
         .navigationTitle("Nastavení")
+        // Success aler
         .alert("Úspěšně změněno", isPresented: $showSuccessAlert) {
             Button("OK", role: .cancel) {}
         }
+        // Error alert
         .alert("Nastala chyba", isPresented: $showErrorAlert, presenting: alertError, actions: { _ in
             Button("OK", role: .cancel) {}
         }, message: { error in

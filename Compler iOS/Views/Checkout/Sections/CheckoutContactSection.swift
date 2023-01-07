@@ -21,7 +21,7 @@ struct CheckoutContactSection: View {
     
     var body: some View {
         
-        CheckoutSection(title: "Kontakt") {
+        LabeledVStack("Kontakt") {
             TextField("Email", text: $email)
                 .focused($focusedField, equals: .email)
                 .textContentType(.emailAddress)

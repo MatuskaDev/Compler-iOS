@@ -8,9 +8,10 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
+/// List of user's orders
 struct OrderHistoryView: View {
     
-    @ObservedObject var model = OrderHistoryViewModel()
+    @StateObject var model = OrderHistoryViewModel()
     
     var body: some View {
         Group {

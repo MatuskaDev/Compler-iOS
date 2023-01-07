@@ -7,14 +7,19 @@
 
 import SwiftUI
 
-struct CheckoutSection<Content: View>: View {
+struct LabeledVStack<Content: View>: View {
 
-    var title: String
-    @ViewBuilder var content: Content
+    var label: String
+    var content: Content
+    
+    init(_ label: String, @ViewBuilder content: () -> Content) {
+        self.label = label
+        self.content = content()
+    }
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text(title)
+            Text(label)
                 .font(.title)
             content
         }
@@ -23,7 +28,7 @@ struct CheckoutSection<Content: View>: View {
 
 struct CheckoutSection_Previews: PreviewProvider {
     static var previews: some View {
-        CheckoutSection(title: "Test") {
+        LabeledVStack("Test") {
             Text("Test")
         }
     }

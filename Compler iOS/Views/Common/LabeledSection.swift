@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// List section with labeled vstack
 struct LabeledSection<Content: View>: View {
     var label: String
     var content: Content
@@ -18,8 +19,7 @@ struct LabeledSection<Content: View>: View {
     
     var body: some View {
         Section {
-            VStack(alignment: .leading) {
-                Text(label)
+            LabeledVStack(label) {
                 content
             }
         }

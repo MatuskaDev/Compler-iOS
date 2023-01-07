@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 class LoginViewModel: ObservableObject {
+    
+    // Textfield bindings
     @Published var email = ""
     @Published var name = ""
     @Published var password = ""
@@ -21,23 +23,26 @@ class LoginViewModel: ObservableObject {
     
     func login() {
         self.error = nil
-        self.isProcessing = true
         
-        Task {
-            do {
-                if createNewAccount {
-                    try await signUp()
-                } else {
-                    try await signIn()
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    self.error = error.localizedDescription
-                }
-            }
+        withAnimation {
+            self.isProcessing = true
             
-            DispatchQueue.main.async {
-                self.isProcessing = false
+            Task {
+                do {
+                    if createNewAccount {
+                        try await signUp()
+                    } else {
+                        try await signIn()
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        self.error = error.localizedDescription
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    self.isProcessing = false
+                }
             }
         }
     }
@@ -60,18 +65,5 @@ class LoginViewModel: ObservableObject {
         } else {
             throw LoginError("Vyplňte všechna pole")
         }
-    }
-}
-
-
-struct LoginError: Error {
-    let message: String
-
-    init(_ message: String) {
-        self.message = message
-    }
-
-    public var localizedDescription: String {
-        return message
     }
 }

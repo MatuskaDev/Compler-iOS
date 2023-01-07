@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// View with contact information
 struct SupportView: View {
     var body: some View {
         ColoredList {

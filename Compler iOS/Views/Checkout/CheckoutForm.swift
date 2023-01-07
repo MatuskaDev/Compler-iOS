@@ -32,7 +32,7 @@ struct CheckoutForm: View {
                     CheckoutContactSection(email: $model.email, phone: $model.phone)
                     
                     // Shipping details
-                    CheckoutAddressSection(firstName: $model.firstName, lastName: $model.lastName, street: $model.street, city: $model.city, zip: $model.zip)
+                    AddressInputSection(firstName: $model.firstName, lastName: $model.lastName, street: $model.street, city: $model.city, zip: $model.zip)
                     
                     // Billing details
                     Group {
@@ -40,7 +40,7 @@ struct CheckoutForm: View {
                             .toggleStyle(.switch)
                         
                         if model.addBillingDetails {
-                            CheckoutBillingSection(companyName: $model.companyName, cin: $model.billingCIN, vat: $model.billingVAT, firstName: $model.billingFirstName, lastName: $model.billingLastName, street: $model.billingStreet, city: $model.billingCity, zip: $model.billingZip)
+                            BillingDetailsInputSection(companyName: $model.companyName, cin: $model.billingCIN, vat: $model.billingVAT, firstName: $model.billingFirstName, lastName: $model.billingLastName, street: $model.billingStreet, city: $model.billingCity, zip: $model.billingZip)
                         }
                     }
                     
@@ -51,7 +51,7 @@ struct CheckoutForm: View {
                     }
                     
                     // Shipping
-                    CheckoutSection(title: "Způsob doručení") {
+                    LabeledVStack("Způsob doručení") {
                         ForEach(model.availibleShippingMethods ?? []) { shipping in
                             ShippingMethodButton(shippingMethod: shipping,
                                                  isSelected: model.shippingMethod == shipping) {
@@ -61,7 +61,7 @@ struct CheckoutForm: View {
                     }
                     
                     // Payment
-                    CheckoutSection(title: "Platba") {
+                    LabeledVStack("Platba") {
                         Text("Bezpečná platba kartou pomocí Stripe")
                         CardField(paymentMethodParams: $model.paymentMethodParams)
                     }

@@ -7,13 +7,16 @@
 
 import SwiftUI
 
+/// Dashboard for signed in user
 struct AccountDashboardView: View {
     
     @ObservedObject var userManager = UserManager.shared
-    @ObservedObject var model = AccountViewModel()
+    @State var signingOut = false
     
     var body: some View {
         VStack(spacing: 15) {
+            
+            // Logo and title
             VStack {
                 Image("logo")
                     .resizable()
@@ -23,6 +26,7 @@ struct AccountDashboardView: View {
                     .font(.title.bold())
             }
             
+            // User name and email
             VStack {
                 if let name = userManager.user?.name {
                     Text(name)
@@ -33,6 +37,7 @@ struct AccountDashboardView: View {
                 }
             }
             
+            // Menu
             ColoredList {
                 NavigationLink("Historie objednávek") {
                     OrderHistoryView()
@@ -51,14 +56,33 @@ struct AccountDashboardView: View {
                     NavigationLink("Nastavení účtu") {
                         AccountSettingsView()
                     }
-                    Button(model.signingOut ? "Odhlašování..." : "Odhlásit se") {
-                        model.signOut()
+                    Button(signingOut ? "Odhlašování..." : "Odhlásit se") {
+                        signOut()
                     }
                     .foregroundColor(.red)
                 }
             }
         }
         .background(Color("BackgroundColor"))
+    }
+}
+
+// MARK: Functions
+extension AccountDashboardView {
+    
+    func signOut() {
+        signingOut = true
+        Task {
+            do {
+                try await userManager.signOut()
+            } catch {
+                print("Error signout")
+            }
+            
+            DispatchQueue.main.async {
+                self.signingOut = false
+            }
+        }
     }
 }
 

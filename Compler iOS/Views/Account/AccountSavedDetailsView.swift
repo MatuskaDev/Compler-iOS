@@ -7,28 +7,34 @@
 
 import SwiftUI
 
+/// View for editing user's saved shipping and billing address for checkout
 struct AccountSavedDetailsView: View {
     
-    @ObservedObject var model = AccountSavedDetailsViewModel()
+    @StateObject var model = AccountSavedDetailsViewModel()
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack(spacing: 10) {
-            CheckoutAddressSection(firstName: $model.firstName,
-                                   lastName: $model.lastName,
-                                   street: $model.street,
-                                   city: $model.city,
-                                   zip: $model.zip)
             
-            Toggle("Doplnit fakturační údaje", isOn: $model.addBillingDetails)
-                .toggleStyle(.switch)
-            
-            if model.addBillingDetails {
-                CheckoutBillingSection(companyName: $model.companyName, cin: $model.billingCIN, vat: $model.billingVAT, firstName: $model.billingFirstName, lastName: $model.billingLastName, street: $model.billingStreet, city: $model.billingCity, zip: $model.billingZip)
+            // Form
+            Group {
+                AddressInputSection(firstName: $model.firstName,
+                                       lastName: $model.lastName,
+                                       street: $model.street,
+                                       city: $model.city,
+                                       zip: $model.zip)
+                
+                Toggle("Doplnit fakturační údaje", isOn: $model.addBillingDetails)
+                    .toggleStyle(.switch)
+                
+                if model.addBillingDetails {
+                    BillingDetailsInputSection(companyName: $model.companyName, cin: $model.billingCIN, vat: $model.billingVAT, firstName: $model.billingFirstName, lastName: $model.billingLastName, street: $model.billingStreet, city: $model.billingCity, zip: $model.billingZip)
+                }
             }
             
             Spacer()
             
+            // Save button
             Button {
                 do {
                     try model.save()
@@ -40,7 +46,6 @@ struct AccountSavedDetailsView: View {
                 Text("Uložit")
             }
             .buttonStyle(LargeButtonStyle())
-
         }
         .padding()
         .navigationTitle("Uložené údaje")

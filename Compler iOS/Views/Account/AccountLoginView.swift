@@ -7,22 +7,24 @@
 
 import SwiftUI
 
-struct LoginView: View {
+/// View for user sign in and sign up
+struct AccountLoginView: View {
     
-    @ObservedObject var model = LoginViewModel()
+    @StateObject var model = LoginViewModel()
     
-    enum Field {
-        case name
-        case email
-        case password
-        case passwordRepeat
+    enum Field: Int {
+        case name = 1
+        case email = 2
+        case password = 3
+        case passwordRepeat = 4
     }
-
     @FocusState var focusedField: Field?
     
     var body: some View {
+        
         VStack {
             
+            // Logo and title
             VStack {
                 Image("logo")
                     .resizable()
@@ -45,7 +47,6 @@ struct LoginView: View {
                         .focused($focusedField, equals: .name)
                         .textContentType(/*@START_MENU_TOKEN@*/.name/*@END_MENU_TOKEN@*/)
                         .submitLabel(.next)
-                        
                 }
                 TextField("Email", text: $model.email)
                     .textContentType(/*@START_MENU_TOKEN@*/.emailAddress/*@END_MENU_TOKEN@*/)
@@ -67,26 +68,10 @@ struct LoginView: View {
             }
             .textFieldStyle(OutlineTextFieldStyle())
             .onSubmit {
-                switch focusedField {
-                case .name:
-                    focusedField = .email
-                case .email:
-                    focusedField = .password
-                case .password:
-                    if model.createNewAccount {
-                        focusedField = .passwordRepeat
-                    } else {
-                        focusedField = nil
-                        model.login()
-                    }
-                case .passwordRepeat:
-                    model.login()
-                    focusedField = nil
-                case .none:
-                    focusedField = nil
-                }
+                focusNextField()
             }
             
+            // Error
             if model.error != nil {
                 HStack {
                     Spacer(minLength: 0)
@@ -105,10 +90,12 @@ struct LoginView: View {
             
             Spacer()
             
+            // Secondary button
             Button(model.createNewAccount == true ? "Přihlásit se ke stávajícímu účtu" : "Vytvořit nový účet") {
                 model.createNewAccount.toggle()
-                
             }
+            
+            // Main button
             Button {
                 focusedField = nil
                 model.login()
@@ -124,11 +111,15 @@ struct LoginView: View {
         .padding()
         .background(Color("BackgroundColor"))
     }
+    
+    func focusNextField() {
+        focusedField = Field(rawValue: focusedField!.rawValue+1)
+    }
 }
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        AccountLoginView()
             .preferredColorScheme(.dark)
     }
 }
