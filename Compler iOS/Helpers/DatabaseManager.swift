@@ -92,6 +92,7 @@ class DatabaseManager {
         return result["orderNumber"] as! Int
     }
     
+    // MARK: User data
     func getOrders(userId: String) async throws -> [Order] {
         let collection = db.collection("orders")
         let query = collection.whereField("customerId", isEqualTo: userId)
@@ -115,5 +116,18 @@ class DatabaseManager {
         let collection = db.collection("users")
         let doc = collection.document(id)
         return try await doc.getDocument().data(as: User.self)
+    }
+    
+    func setUserName(_ name: String) {
+        let collection = db.collection("users")
+        let doc = collection.document(UserManager.shared.user!.id)
+        doc.setData(["name" : name], merge: true)
+        UserManager.shared.user?.name = name
+    }
+    
+    func setUserEmail(_ email: String) {
+        let collection = db.collection("users")
+        let doc = collection.document(UserManager.shared.user!.id)
+        doc.setData(["email" : email], merge: true)
     }
 }

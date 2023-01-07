@@ -15,7 +15,7 @@ struct OrderHistoryView: View {
     var body: some View {
         Group {
             if let orders = model.orders {
-                List {
+                ColoredList {
                     ForEach(orders) { order in
                         OrderHistoryRow(order: order)
                     }
@@ -23,12 +23,11 @@ struct OrderHistoryView: View {
                 .refreshable {
                     await model.loadOrders()
                 }
-                .scrollContentBackground(.hidden)
             } else {
                 ProgressView()
+                    .background(Color("BackgroundColor"))
             }
         }
-        .background(Color("BackgroundColor"))
         .navigationTitle("Historie objednávek")
     }
 }

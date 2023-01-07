@@ -63,7 +63,6 @@ struct OrderHistoryRow: View {
             Spacer()
             Text(date)
         }
-        .listRowBackground(Color("SecondaryBG"))
     }
 }
 

@@ -33,11 +33,10 @@ struct AccountDashboardView: View {
                 }
             }
             
-            List {
+            ColoredList {
                 NavigationLink("Historie objednávek") {
                     OrderHistoryView()
                 }
-                .listRowBackground(Color("SecondaryBG"))
                 
                 Section {
                     NavigationLink("Uložené adresy") {
@@ -48,21 +47,16 @@ struct AccountDashboardView: View {
                     }
                 }
                 
-                .listRowBackground(Color("SecondaryBG"))
-                
                 Section {
                     NavigationLink("Nastavení účtu") {
-                        //
+                        AccountSettingsView()
                     }
                     Button(model.signingOut ? "Odhlašování..." : "Odhlásit se") {
                         model.signOut()
                     }
                     .foregroundColor(.red)
                 }
-                .listRowBackground(Color("SecondaryBG"))
             }
-            .listStyle(.insetGrouped)
-            .scrollContentBackground(.hidden)
         }
         .background(Color("BackgroundColor"))
     }

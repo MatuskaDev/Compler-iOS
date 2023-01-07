@@ -73,4 +73,20 @@ class UserManager: ObservableObject {
             return true
         }
     }
+    
+    func changeEmail(newEmail: String, password: String) async throws {
+        let credential = EmailAuthProvider.credential(withEmail: self.user!.email!, password: password)
+        try await Auth.auth().currentUser?.reauthenticate(with: credential)
+        try await Auth.auth().currentUser?.updateEmail(to: newEmail)
+        DispatchQueue.main.async {
+            self.user?.email = newEmail
+            DatabaseManager.shared.setUserEmail(newEmail)
+        }
+    }
+    
+    func changePassword(newPassword: String, currentPassword: String) async throws {
+        let credential = EmailAuthProvider.credential(withEmail: self.user!.email!, password: currentPassword)
+        try await Auth.auth().currentUser?.reauthenticate(with: credential)
+        try await Auth.auth().currentUser?.updatePassword(to: newPassword)
+    }
 }
