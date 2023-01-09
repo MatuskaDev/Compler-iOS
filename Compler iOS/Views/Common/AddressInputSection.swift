@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Textfield form section with delivery address information
 struct AddressInputSection: View {
     
     @Binding var firstName: String
@@ -15,14 +16,13 @@ struct AddressInputSection: View {
     @Binding var city: String
     @Binding var zip: String
 
-    enum Field {
-        case firstName
-        case lastName
-        case street
-        case city
-        case zip
+    enum Field: Int {
+        case firstName = 1
+        case lastName = 2
+        case street = 3
+        case city = 4
+        case zip = 5
     }
-
     @FocusState var focusedField: Field?
     
     var body: some View {
@@ -59,20 +59,7 @@ struct AddressInputSection: View {
         }
         .textFieldStyle(OutlineTextFieldStyle())
         .onSubmit {
-            switch focusedField {
-            case .firstName:
-                focusedField = .lastName
-            case .lastName:
-                focusedField = .street
-            case .street:
-                focusedField = .city
-            case .city:
-                focusedField = .zip
-            case .zip:
-                focusedField = nil
-            case .none:
-                focusedField = nil
-            }
+            focusedField = Field(rawValue: focusedField!.rawValue+1)
         }
     }
 }

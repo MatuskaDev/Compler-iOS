@@ -8,17 +8,13 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
+/// Product detail view with configurator
 struct ProductDetailView: View {
     
     @ObservedObject var model: ProductViewModel
     
     init(product: Product) {
-        self.model = ProductViewModel(product: product)
-        
-        // Set navigation bar and scroll view background
-        let navigationBarAppearance = UINavigationBarAppearance()
-        navigationBarAppearance.backgroundColor = UIColor(Color("BackgroundColor"))
-        UIScrollView.appearance().backgroundColor = UIColor(Color("BackgroundColor"))
+        model = ProductViewModel(product: product)
         
         // Set tab view page indicator color
         UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color("BackgroundColor"))
@@ -64,46 +60,40 @@ struct ProductDetailView: View {
                     Spacer()
                 }
             }
+            .background(Color("BackgroundColor"))
             
             // Bottom bar
             HStack {
                 
                 // Price
-                VStack(alignment: .leading) {
-                    
-                    Text(model.formatPrice(model.selectedConfiguration?.price ?? 0))
-                        .font(.title3)
-                        .bold()
-                    
-                    Text("včetně DPH")
-                        .font(.caption)
+                if let price = model.selectedConfiguration?.price {
+                    VStack(alignment: .leading) {
+                        
+                        Text(price.formattedAsPrice)
+                            .font(.title3)
+                            .bold()
+                        
+                        Text("včetně DPH")
+                            .font(.caption)
+                    }
                 }
                 
                 Spacer()
                 
                 // Buy
-                NavigationLink {
-                    if let checkoutProduct = model.getCheckoutProduct() {
-                        CheckoutView(checkoutProduct: checkoutProduct)
-                    } else {
-                        Text("Něco se pokazilo")
-                    }
-                } label: {
-                    Text("Koupit")
-                        .foregroundColor(.white)
-                        .bold()
-                        .padding(8)
-                        .padding(.horizontal, 30)
-                        .background(Color.accentColor)
-                        .cornerRadius(100)
-                }
+                NavigationLink("Koupit", value: Navigation.checkout(model.getCheckoutProduct()!))
+                    .foregroundColor(.white)
+                    .bold()
+                    .padding(8)
+                    .padding(.horizontal, 30)
+                    .background(Color.accentColor)
+                    .cornerRadius(100)
             }
             .padding(.horizontal, 30)
             .padding(.top)
             .background(Color("SecondaryBG"))
         }
-        .navigationTitle(model.product.modelName)
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("\(model.product.brand) \(model.product.modelName)")
     }
 }
 

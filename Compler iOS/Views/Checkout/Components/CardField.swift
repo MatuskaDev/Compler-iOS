@@ -27,16 +27,7 @@ public struct CardField: UIViewRepresentable {
     public func makeUIView(context: Context) -> STPPaymentCardTextField {
         let paymentCardField = STPPaymentCardTextField()
         paymentCardField.postalCodeEntryEnabled = false
-        
-//        if let cardParams = paymentMethodParams?.card {
-//            paymentCardField.cardParams = cardParams
-//        }
-//        if let postalCode = paymentMethodParams?.billingDetails?.address?.postalCode {
-//            paymentCardField.postalCode = postalCode
-//        }
-//        if let countryCode = paymentMethodParams?.billingDetails?.address?.country {
-//            paymentCardField.countryCode = countryCode
-//        }
+
         paymentCardField.delegate = context.coordinator
         paymentCardField.setContentHuggingPriority(.required, for: .vertical)
         
@@ -48,15 +39,7 @@ public struct CardField: UIViewRepresentable {
     }
 
     public func updateUIView(_ paymentCardField: STPPaymentCardTextField, context: Context) {
-//        if let cardParams = paymentMethodParams?.card {
-//            paymentCardField.cardParams = cardParams
-//        }
-//        if let postalCode = paymentMethodParams?.billingDetails?.address?.postalCode {
-//            paymentCardField.postalCode = postalCode
-//        }
-//        if let countryCode = paymentMethodParams?.billingDetails?.address?.country {
-//            paymentCardField.countryCode = countryCode
-//        }
+
     }
 
     public class Coordinator: NSObject, STPPaymentCardTextFieldDelegate {

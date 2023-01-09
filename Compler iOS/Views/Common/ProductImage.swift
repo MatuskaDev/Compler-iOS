@@ -8,6 +8,7 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
+/// Square web image on white background with notebook placeholder
 struct ProductImage: View {
     
     let url: URL?

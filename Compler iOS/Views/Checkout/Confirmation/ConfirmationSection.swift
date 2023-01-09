@@ -9,13 +9,18 @@ import SwiftUI
 
 struct ConfirmationSection<Content: View>: View {
     
-    let title: String
-    @ViewBuilder var content: Content
+    let label: String
+    var content: Content
+    
+    init(_ label: String, @ViewBuilder content: () -> Content) {
+        self.label = label
+        self.content = content()
+    }
     
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(title)
+                Text(label)
                     .bold()
                     .fixedSize()
                     .padding(.bottom, 2)
@@ -31,7 +36,7 @@ struct ConfirmationSection<Content: View>: View {
 
 struct ConfirmationSection_Previews: PreviewProvider {
     static var previews: some View {
-        ConfirmationSection(title: "Test") {
+        ConfirmationSection("Test") {
             Text("Ahoj")
         }
     }

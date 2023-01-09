@@ -8,9 +8,10 @@
 import Foundation
 import SwiftUI
 
+/// Trasnparent outlined button which has white bg when selected
 struct OutlineButtonStyle: ButtonStyle {
     
-    var isSelected: Bool
+    let isSelected: Bool
     
     @Environment(\.isEnabled) private var isEnabled: Bool
     

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductColor: Identifiable, Codable, Equatable {
+struct ProductColor: Identifiable, Codable, Equatable, Hashable {
     var id: String
     var name: String
     var hexColorCode: String

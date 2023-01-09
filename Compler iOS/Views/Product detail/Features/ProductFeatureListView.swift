@@ -7,9 +7,11 @@
 
 import SwiftUI
 
+/// Horizontal list of important features
 struct ProductFeatureList: View {
     
-    var features: [ProductFeature]
+    let features: [ProductFeature]
+    
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {

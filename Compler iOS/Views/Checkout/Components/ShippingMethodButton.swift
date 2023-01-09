@@ -7,12 +7,13 @@
 
 import SwiftUI
 
+/// Button representing an shipping method
 struct ShippingMethodButton: View {
     
     let shippingMethod: ShippingMethod
     
-    var isSelected: Bool
-    var action: () -> Void
+    let isSelected: Bool
+    let action: () -> Void
     
     var body: some View {
         Button {

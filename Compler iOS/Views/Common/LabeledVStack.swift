@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// VStack with title label
 struct LabeledVStack<Content: View>: View {
 
     var label: String

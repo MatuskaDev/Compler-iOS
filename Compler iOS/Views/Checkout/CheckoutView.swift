@@ -6,16 +6,14 @@
 //
 
 import SwiftUI
-import StripePaymentSheet
-import Stripe
-import SDWebImageSwiftUI
 
+/// Main checkout view
 struct CheckoutView: View {
     
     @ObservedObject var model: CheckoutViewModel
     
     init(checkoutProduct: CheckoutProduct) {
-        self.model = CheckoutViewModel(checkoutProduct: checkoutProduct)
+        model = CheckoutViewModel(checkoutProduct: checkoutProduct)
     }
     
     var body: some View {

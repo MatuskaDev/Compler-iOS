@@ -7,16 +7,16 @@
 
 import SwiftUI
 
+/// Textfield form section with email and phone
 struct CheckoutContactSection: View {
     
     @Binding var email: String
     @Binding var phone: String
     
-    enum Field {
-        case email
-        case phone
+    enum Field: Int {
+        case email = 1
+        case phone = 2
     }
-
     @FocusState private var focusedField: Field?
     
     var body: some View {
@@ -33,14 +33,7 @@ struct CheckoutContactSection: View {
         }
         .textFieldStyle(OutlineTextFieldStyle())
         .onSubmit {
-            switch focusedField {
-            case .email:
-                focusedField = .phone
-            case .phone:
-                focusedField = nil
-            case .none:
-                focusedField = nil
-            }
+            focusedField = Field(rawValue: focusedField!.rawValue+1)
         }
     }
 }

@@ -19,7 +19,8 @@ struct LabeledSection<Content: View>: View {
     
     var body: some View {
         Section {
-            LabeledVStack(label) {
+            VStack(alignment: .leading) {
+                Text(label)
                 content
             }
         }

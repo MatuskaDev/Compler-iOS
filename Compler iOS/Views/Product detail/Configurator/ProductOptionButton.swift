@@ -7,22 +7,20 @@
 
 import SwiftUI
 
-struct ProductOption: View {
+/// Button representing an option in configurator
+struct ProductOptionButton: View {
     
     let title: String
     let price: String?
-    var colorIcon: String? = nil
-    var color: Color? {
-        if colorIcon != nil {
-            return Color(hexString: colorIcon!)
-        } else {
-            return nil
-        }
-    }
+    var colorCode: String? = nil
     
-    var isSelected: Bool
-    var isAvailible: Bool
-    var action: () -> Void
+    let isSelected: Bool
+    let isAvailible: Bool
+    let action: () -> Void
+    
+    private var color: Color? {
+        return colorCode == nil ? nil : Color(hexString: colorCode!)
+    }
     
     var body: some View {
         Button {
@@ -32,7 +30,8 @@ struct ProductOption: View {
         } label: {
             HStack(spacing: 15) {
                 
-                if let color = color {
+                // Color icon
+                if let color {
                     Circle()
                         .strokeBorder(.white, lineWidth: 4)
                         .background {
@@ -46,7 +45,8 @@ struct ProductOption: View {
                 
                 Spacer()
                 
-                if let price = price {
+                // Price
+                if let price {
                     Text(price)
                         .font(.footnote)
                 }
@@ -59,7 +59,7 @@ struct ProductOption: View {
 
 struct ProductOption_Previews: PreviewProvider {
     static var previews: some View {
-        ProductOption(title: "Intel Core i9", price: "+ 10 000 Kč", colorIcon: "#FFFFFF", isSelected: true, isAvailible: true, action: {
+        ProductOptionButton(title: "Intel Core i9", price: "+ 10 000 Kč", isSelected: true, isAvailible: true, action: {
             //
         })
             .preferredColorScheme(.dark)

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Basic filter for product list
 struct ProductListFilter: View {
     
     @ObservedObject var model: ProductListViewModel

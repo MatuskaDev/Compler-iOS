@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Inset grouped list with background color
 struct ColoredList<Content: View>: View {
     @ViewBuilder var content: Content
     var body: some View {

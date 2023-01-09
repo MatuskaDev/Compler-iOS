@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Product preview with image and details
 struct CheckoutProductPreview: View {
     
     let product: CheckoutProduct
@@ -29,17 +30,14 @@ struct CheckoutProductPreview: View {
             ProductImage(url: product.color.imagesUrl?[0] ?? product.product.mainImageUrl)
             
             // Product info
-            VStack(alignment: .leading, spacing: 5) {
+            VStack(alignment: .leading) {
                 
-                VStack(alignment: .leading) {
-                    
-                    Text("\(product.product.brand) \(product.product.modelName)")
-                        .bold()
-                    Text(product.configuration.formattedPrice)
-                        .padding(.bottom, 5)
-                    Text(productText)
-                        .font(.caption)
-                }
+                Text("\(product.product.brand) \(product.product.modelName)")
+                    .bold()
+                Text(product.configuration.price.formattedAsPrice)
+                    .padding(.bottom, 5)
+                Text(productText)
+                    .font(.caption)
             }
             
             Spacer(minLength: 0)

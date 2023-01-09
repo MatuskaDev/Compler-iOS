@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Order confirmation after sucessful order and payment
 struct CheckoutConfirmation: View {
     
     let order: Order
@@ -78,14 +79,14 @@ struct CheckoutConfirmation: View {
             // Order details
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())]) {
                 
-                ConfirmationSection(title: "Doručovací údaje") {
+                ConfirmationSection("Doručovací údaje") {
                     Text("\(order.shippingInfo.firstName) \(order.shippingInfo.lastName)")
                     Text("\(order.shippingInfo.street)")
                     Text("\(order.shippingInfo.city), \(order.shippingInfo.zip)")
                     Spacer(minLength: 0)
                 }
                 
-                ConfirmationSection(title: "Fakturančí údaje") {
+                ConfirmationSection("Fakturančí údaje") {
                     if let company = order.billingInfo.companyName {
                         Text(company)
                     }
@@ -103,11 +104,11 @@ struct CheckoutConfirmation: View {
                     Text("\(order.billingInfo.city), \(order.billingInfo.zip)")
                 }
                 
-                ConfirmationSection(title: "Způsob doručení") {
+                ConfirmationSection("Způsob doručení") {
                     Text("PPL")
                 }
                 
-                ConfirmationSection(title: "Celkem") {
+                ConfirmationSection("Celkem") {
                     Text(order.totalAmount.formattedAsPrice)
                 }
             }
@@ -115,17 +116,18 @@ struct CheckoutConfirmation: View {
             // Support button
             HStack {
                 Spacer()
-                Text("Potřebuji pomoct s objednávkou")
-                Image(systemName: "questionmark.circle")
+                Link(destination: URL(string: "mailto:objednavky@compler.cz")!) {
+                    Text("Potřebuji pomoct s objednávkou")
+                    Image(systemName: "questionmark.circle")
+                }
                 Spacer()
             }
-            
             
             Spacer()
             
             // Done button
             Button("Hotovo") {
-                navigationHelper.navigation = nil
+                navigationHelper.path.removeAll()
             }
             .buttonStyle(LargeButtonStyle())
             

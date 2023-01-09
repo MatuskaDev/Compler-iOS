@@ -20,11 +20,14 @@ struct AccountCard: View {
     }
     
     var body: some View {
+        
         HStack(spacing: 15) {
+            
             Image(systemName: icon)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 40)
+            
             VStack(alignment: .leading) {
                 Text(userManager.user?.name ?? "Zákaznický účet")
                     .font(.title2)

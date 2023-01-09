@@ -7,28 +7,18 @@
 
 import SwiftUI
 
-class NavigationHelper: ObservableObject {
-    @Published var navigation: Navigation?
-    
-    enum Navigation {
-        case account
-        case list
-        case recommender
-    }
-}
-
 struct DashboardView: View {
     
-    @ObservedObject var navigationHelper = NavigationHelper()
+    @StateObject var navigationHelper = NavigationHelper()
     
     var body: some View {
         
-        NavigationView {
+        NavigationStack(path: $navigationHelper.path) {
             
             VStack {
                 
                 // Acount card
-                NavigationLink(destination: AccountView(), tag: NavigationHelper.Navigation.account, selection: $navigationHelper.navigation) {
+                NavigationLink(value: Navigation.account) {
                     AccountCard()
                 }
                 .buttonStyle(.plain)
@@ -47,14 +37,10 @@ struct DashboardView: View {
                 // Navigation
                 VStack {
                     
-                    Button {
-                        //
-                    } label: {
-                        Text("Průvodce výběrem")
-                            .bold()
-                    }
+                    NavigationLink("Průvodce výběrem", value: Navigation.recommender)
                     .buttonStyle(LargeButtonStyle())
                     .padding(.horizontal)
+                    .frame(maxWidth: 350)
                     
                     HStack(spacing: 10) {
                         Rectangle()
@@ -66,14 +52,26 @@ struct DashboardView: View {
                     .padding(8)
                     .frame(maxWidth: 230)
                     
-                    NavigationLink(destination: ProductListView(), tag: NavigationHelper.Navigation.list, selection: $navigationHelper.navigation) {
-                        Text("Zobrazit nabídku")
-                            .font(.title3)
-                    }
+                    NavigationLink("Zobrazit nabídku", value: Navigation.list)
+                        .font(.title3)
                 }
                 
                 Spacer()
             }
+            .navigationDestination(for: Navigation.self, destination: { nav in
+                switch nav {
+                case .account:
+                    AccountView()
+                case .list:
+                    ProductListView()
+                case .recommender:
+                    EmptyView()
+                case let .productDetail(product):
+                    ProductDetailView(product: product)
+                case let .checkout(product):
+                    CheckoutView(checkoutProduct: product)
+                }
+            })
             .background(Color("BackgroundColor"))
         }
         .environmentObject(navigationHelper)

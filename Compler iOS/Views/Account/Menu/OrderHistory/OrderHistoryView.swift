@@ -11,7 +11,7 @@ import SDWebImageSwiftUI
 /// List of user's orders
 struct OrderHistoryView: View {
     
-    @StateObject var model = OrderHistoryViewModel()
+    @ObservedObject var model = OrderHistoryViewModel()
     
     var body: some View {
         Group {

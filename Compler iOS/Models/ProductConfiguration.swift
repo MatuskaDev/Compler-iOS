@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductConfiguration: Codable, Identifiable, Equatable {
+struct ProductConfiguration: Codable, Identifiable, Equatable, Hashable {
     var id: String
     var screenResolution: Resolution
     var touchScreen: Bool

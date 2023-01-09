@@ -7,9 +7,10 @@
 
 import SwiftUI
 
+/// Grid of all products with top filter
 struct ProductListView: View {
     
-    @ObservedObject var model = ProductListViewModel()
+    @StateObject var model = ProductListViewModel()
     
     var body: some View {
         
@@ -25,19 +26,18 @@ struct ProductListView: View {
                         
                         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
                             ForEach(model.filteredProducts!) { product in
-                                NavigationLink {
-                                    ProductDetailView(product: product)
-                                } label: {
+                                NavigationLink(value: Navigation.productDetail(product)) {
                                     ProductListCard(product: product)
                                 }
                                 .buttonStyle(.plain)
                             }
                         }
                     }
-                    .padding()
+                    .padding(.horizontal)
                 }
             }
         }
+        .background(Color("BackgroundColor"))
         .navigationTitle("Nabídka")
         .navigationBarTitleDisplayMode(.large)
     }

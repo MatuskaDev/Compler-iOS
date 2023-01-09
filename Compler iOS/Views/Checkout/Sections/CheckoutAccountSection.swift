@@ -10,7 +10,6 @@ import SwiftUI
 struct CheckoutAccountSection: View {
     
     @ObservedObject private var userManager = UserManager.shared
-    
     @State private var showLoginSheet = false
     
     var body: some View {
@@ -18,6 +17,7 @@ struct CheckoutAccountSection: View {
             Text("sledujte svou objednávku a uložte si údaje na příště.")
             
             if userManager.isSignedIn(){
+                // User badge
                 HStack {
                     Spacer()
                     Image(systemName: "person.crop.circle.badge.checkmark")
@@ -29,6 +29,7 @@ struct CheckoutAccountSection: View {
                 .background(Color.white)
                 .cornerRadius(8)
             } else {
+                // Login button
                 Button {
                     showLoginSheet.toggle()
                 } label: {

@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+/// Large oval button with accent background
 struct LargeButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         HStack {
@@ -21,6 +22,9 @@ struct LargeButtonStyle: ButtonStyle {
         .frame(height: 55)
         .background(Color.accentColor)
         .cornerRadius(100)
+        .contentShape(Capsule())
+        .scaleEffect(configuration.isPressed ? 0.95 : 1)
+        .opacity(configuration.isPressed ? 0.9 : 1)
     }
 }
 

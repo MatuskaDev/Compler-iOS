@@ -7,11 +7,12 @@
 
 import SwiftUI
 
+/// Checkout form
 struct CheckoutForm: View {
     
-    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var model: CheckoutViewModel
     @ObservedObject var userManager = UserManager.shared
+    @EnvironmentObject var navigationHelper: NavigationHelper
     
     var body: some View {
         
@@ -85,7 +86,6 @@ struct CheckoutForm: View {
                 // Pay button
                 Button {
                     model.pay()
-                    UIApplication.shared.windows.forEach { $0.endEditing(false) }
                 } label: {
                     if !model.processingOrder {
                         Text("Objednat a zaplatit")
@@ -99,20 +99,20 @@ struct CheckoutForm: View {
                 .paymentConfirmationSheet(isConfirmingPayment: $model.confirmPayment, paymentIntentParams: model.paymentIntentParams, onCompletion: model.onPaymentComplete)
             }
             .padding()
+            .disabled(model.processingOrder)
         }
+        .background(Color("BackgroundColor"))
+        .scrollDismissesKeyboard(.interactively)
         .onChange(of: userManager.isSignedIn()) { isSignedIn in
             if isSignedIn {
                 model.loadUserSavedDetails()
             }
         }
-        .onTapGesture {
-            UIApplication.shared.windows.forEach { $0.endEditing(false) }
-        }
         .navigationTitle("Objednávka")
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button("Zrušit") {
-                    dismiss()
+                    navigationHelper.path.removeLast()
                 }
             }
         }

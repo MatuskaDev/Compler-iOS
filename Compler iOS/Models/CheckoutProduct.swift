@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CheckoutProduct {
+struct CheckoutProduct: Hashable {
     let product: Product
     let configuration: ProductConfiguration
     let color: ProductColor

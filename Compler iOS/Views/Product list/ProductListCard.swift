@@ -8,6 +8,7 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
+/// Card representing product in product list
 struct ProductListCard: View {
     
     let product: Product
@@ -16,6 +17,7 @@ struct ProductListCard: View {
         
         VStack(spacing: 5) {
             
+            // Image
             ZStack(alignment: .topLeading) {
                 ProductImage(url: product.mainImageUrl)
                 Image(systemName: product.mainFocus.getIconName)
@@ -25,6 +27,7 @@ struct ProductListCard: View {
             
             Spacer(minLength: 0)
             
+            // Info
             VStack {
                 Text("\(product.brand) \(product.modelName)")
                     .bold()
@@ -36,9 +39,7 @@ struct ProductListCard: View {
             
             Spacer(minLength: 0)
         }
-        .background {
-            Color("SecondaryBG")
-        }
+        .background(Color("SecondaryBG"))
         .cornerRadius(10)
     }
 }

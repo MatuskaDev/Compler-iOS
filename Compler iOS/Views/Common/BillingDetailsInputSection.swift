@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Textfield form section with billing details
 struct BillingDetailsInputSection: View {
     
     @Binding var companyName: String
@@ -18,22 +19,21 @@ struct BillingDetailsInputSection: View {
     @Binding var city: String
     @Binding var zip: String
 
-    enum Field {
-        case companyName
-        case cin
-        case vat
-        case firstName
-        case lastName
-        case street
-        case city
-        case zip
+    enum Field: Int {
+        case companyName = 1
+        case cin = 2
+        case vat = 3
+        case firstName = 4
+        case lastName = 5
+        case street = 6
+        case city = 7
+        case zip = 8
     }
-
     @FocusState var focusedField: Field?
     
     var body: some View {
         
-        LabeledVStack("Fakturační adresa") {
+        LabeledVStack("Fakturační údaje") {
             TextField("Společnost", text: $companyName)
                 .focused($focusedField, equals: .companyName)
                 .textContentType(.organizationName)
@@ -78,26 +78,7 @@ struct BillingDetailsInputSection: View {
         }
         .textFieldStyle(OutlineTextFieldStyle())
         .onSubmit {
-            switch focusedField {
-            case .companyName:
-                focusedField = .cin
-            case .cin:
-                focusedField = .vat
-            case .vat:
-                focusedField = .firstName
-            case .firstName:
-                focusedField = .lastName
-            case .lastName:
-                focusedField = .street
-            case .street:
-                focusedField = .city
-            case .city:
-                focusedField = .zip
-            case .zip:
-                focusedField = nil
-            case .none:
-                focusedField = nil
-            }
+            focusedField = Field(rawValue: focusedField!.rawValue+1)
         }
     }
 }
