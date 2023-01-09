@@ -17,58 +17,30 @@ class DatabaseManager {
     
     private let db = Firestore.firestore()
     
-    func getProducts(completion: @escaping ([Product]?, Error?) -> Void) {
+    func getProducts() async throws -> [Product] {
         
         let collection = db.collection("products")
         
-        Task.init {
-            do {
-                var products = [Product]()
-                let snapshot = try await collection.getDocuments()
-                for doc in snapshot.documents {
-                    products.append(try doc.data(as: Product.self))
-                }
-                completion(products, nil)
-            }
-            catch {
-                completion(nil, error)
-            }
+        var products = [Product]()
+        let snapshot = try await collection.getDocuments()
+        for doc in snapshot.documents {
+            products.append(try doc.data(as: Product.self))
         }
+        
+        return products
     }
     
-    func getShippingMethods(completion: @escaping ([ShippingMethod]?, Error?) -> Void) {
+    func getShippingMethods() async throws -> [ShippingMethod] {
             
-            let collection = db.collection("shippingMethods")
-            
-            Task.init {
-                do {
-                    var shippingMethods = [ShippingMethod]()
-                    let snapshot = try await collection.getDocuments()
-                    for doc in snapshot.documents {
-                        shippingMethods.append(try doc.data(as: ShippingMethod.self))
-                    }
-                    completion(shippingMethods, nil)
-                }
-                catch {
-                    completion(nil, error)
-                }
-            }
-    }
-
-    func getShippingMethod(id: String, completion: @escaping (ShippingMethod?, Error?) -> Void) {
-        
         let collection = db.collection("shippingMethods")
-        let doc = collection.document(id)
-        
-        Task.init {
-            do {
-                let data = try await doc.getDocument().data(as: ShippingMethod.self)
-                completion(data, nil)
-            }
-            catch {
-                completion(nil, error)
-            }
+            
+        var shippingMethods = [ShippingMethod]()
+        let snapshot = try await collection.getDocuments()
+        for doc in snapshot.documents {
+            shippingMethods.append(try doc.data(as: ShippingMethod.self))
         }
+        
+        return shippingMethods
     }
 
     func saveOrder(order: Order) throws {
@@ -81,8 +53,7 @@ class DatabaseManager {
     func getOrder(id: String) async throws -> Order {
         let collection = db.collection("orders")
         let doc = collection.document(id)
-        let data = try await doc.getDocument().data(as: Order.self)
-        return data
+        return try await doc.getDocument().data(as: Order.self)
     }
 
     // Get order number from cloud function

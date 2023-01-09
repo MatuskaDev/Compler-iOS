@@ -11,10 +11,10 @@ import SDWebImageSwiftUI
 /// Product detail view with configurator
 struct ProductDetailView: View {
     
-    @ObservedObject var model: ProductViewModel
+    @ObservedObject var model: ProductDetailViewModel
     
     init(product: Product) {
-        model = ProductViewModel(product: product)
+        model = ProductDetailViewModel(product: product)
         
         // Set tab view page indicator color
         UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(Color("BackgroundColor"))

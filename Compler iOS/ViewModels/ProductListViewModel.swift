@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class ProductListViewModel: ObservableObject {
     
@@ -24,15 +25,17 @@ class ProductListViewModel: ObservableObject {
     
     init() {
         
-        DatabaseManager.shared.getProducts { products, error in
-            
-            guard error == nil else {
-                print(error!)
-                return
-            }
-            
-            DispatchQueue.main.async {
-                self.products = products
+        Task {
+            do {
+                let products = try await DatabaseManager.shared.getProducts()
+                
+                DispatchQueue.main.async {
+                    withAnimation {
+                        self.products = products
+                    }
+                }
+            } catch {
+                print(error.localizedDescription)
             }
         }
     }

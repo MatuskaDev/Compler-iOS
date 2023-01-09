@@ -14,6 +14,7 @@ class UserManager: ObservableObject {
     
     static let shared = UserManager()
     private init() {
+        // Get cached user
         Task {
             if let currentUser = Auth.auth().currentUser {
                 do {

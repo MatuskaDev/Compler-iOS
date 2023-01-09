@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductFeature: Identifiable, Codable {
+struct ProductFeature: Identifiable, Codable, Hashable {
     var id: String = UUID().uuidString
     let title: String
     let type: FeatureType

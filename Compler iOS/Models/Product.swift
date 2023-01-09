@@ -8,14 +8,6 @@
 import Foundation
 
 struct Product: Codable, Identifiable, Hashable {
-    static func == (lhs: Product, rhs: Product) -> Bool {
-        lhs.id == rhs.id
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
     var id: String
     var brand: String
     var modelName: String
@@ -34,19 +26,10 @@ struct Product: Codable, Identifiable, Hashable {
 }
 
 extension Product {
-    var lowestPriceFormatted: String {
-        
-        let p = configurations.map { conf in
+    var lowestPrice: Int {
+        configurations.map { conf in
             conf.price
         }.sorted().first ?? 0
-        
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.currencyCode = "czk"
-        formatter.currencyGroupingSeparator = " "
-        formatter.currencyDecimalSeparator = ","
-        formatter.minimumFractionDigits = 0
-        return formatter.string(from: p as NSNumber)!
     }
 }
 

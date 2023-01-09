@@ -41,12 +41,4 @@ class StripeManager {
         
         return (id: id, secret: secret)
     }
-    
-    // Get order id using payment intent secret
-    func getOrderId(paymentIntentId: String) async throws -> String {
-        let data = try await functions.httpsCallable("getOrderId").call(["paymentIntentId" : paymentIntentId]).data as! [String: Any]
-        let orderId = data["orderId"] as! String
-        return orderId
-    }
-    
 }

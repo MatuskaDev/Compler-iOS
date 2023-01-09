@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ProductType: Codable {
+enum ProductType: Codable, Hashable {
     case desktop
     case notebook
 }

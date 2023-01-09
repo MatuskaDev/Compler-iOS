@@ -10,7 +10,7 @@ import SwiftUI
 /// Product configurator
 struct ProductConfigurator: View {
     
-    @ObservedObject var model: ProductViewModel
+    @ObservedObject var model: ProductDetailViewModel
     
     var body: some View {
         
@@ -76,7 +76,7 @@ struct ProductConfigurator: View {
                     ForEach(model.storageOptions.sorted(by: { el1, el2 in
                         el1 < el2
                     }), id:\.self) { option in
-                        ProductOptionButton(title: model.formatStorageSize(option),
+                        ProductOptionButton(title: option.formattedAsStorage,
                                       price: model.getOptionPrice(storage: option),
                                       isSelected: option == model.selectedStorage,
                                       isAvailible: model.isOptionAvailible(storage: option),

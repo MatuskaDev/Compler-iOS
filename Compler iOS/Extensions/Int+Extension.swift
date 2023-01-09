@@ -17,4 +17,12 @@ extension Int {
         formatter.minimumFractionDigits = 0
         return formatter.string(from: self as NSNumber)!
     }
+    
+    var formattedAsStorage: String {
+        if self < 1024 {
+            return "\(self) GB"
+        } else {
+            return "\(self/1024) TB"
+        }
+    }
 }

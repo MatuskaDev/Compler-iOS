@@ -14,9 +14,9 @@ struct CheckoutProductPreview: View {
     
     var productText: String {
         if product.configuration.gpuName != nil {
-            return "Barva: \(product.color.name), CPU: \(product.configuration.cpuName), GPU: \(product.configuration.gpuName!), Paměť: \(product.configuration.formattedMemorySize), Uložiště: \(product.configuration.formattedStorageSize)"
+            return "Barva: \(product.color.name), CPU: \(product.configuration.cpuName), GPU: \(product.configuration.gpuName!), Paměť: \(product.configuration.memorySize.formattedAsStorage), Uložiště: \(product.configuration.storageSize.formattedAsStorage)"
         } else {
-            return "Barva: \(product.color.name), CPU: \(product.configuration.cpuName), Paměť: \(product.configuration.formattedMemorySize), Uložiště: \(product.configuration.formattedStorageSize)"
+            return "Barva: \(product.color.name), CPU: \(product.configuration.cpuName), Paměť: \(product.configuration.memorySize.formattedAsStorage), Uložiště: \(product.configuration.storageSize.formattedAsStorage)"
         }
     }
     

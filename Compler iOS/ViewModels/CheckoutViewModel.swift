@@ -86,14 +86,16 @@ class CheckoutViewModel: ObservableObject {
     }
     
     private func getShippingMethods() {
-        DatabaseManager.shared.getShippingMethods { methods, error in
-            if let methods = methods {
+        Task {
+            do {
+                let shippingMethods = try await DatabaseManager.shared.getShippingMethods()
+                
                 DispatchQueue.main.async {
-                    self.availibleShippingMethods = methods
-                    self.shippingMethod = methods.first
+                    self.availibleShippingMethods = shippingMethods
+                    self.shippingMethod = shippingMethods.first
                 }
-            } else {
-                print("Error getting shipping methods: \(error?.localizedDescription ?? "Unknown error")")
+            } catch {
+                print("Error getting shipping methods: \(error.localizedDescription)")
             }
         }
     }

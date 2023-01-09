@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ProductFocus: Codable, CaseIterable {
+enum ProductFocus: Codable, CaseIterable, Hashable {
     case games
     case office
     case creative

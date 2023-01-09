@@ -14,9 +14,14 @@ struct ProductListView: View {
     
     var body: some View {
         
-        Group {
+        ZStack {
+            
+            Color("BackgroundColor")
+                .ignoresSafeArea()
+            
             if model.filteredProducts == nil {
                 ProgressView()
+                
             } else {
                 ScrollView {
                     
@@ -37,7 +42,6 @@ struct ProductListView: View {
                 }
             }
         }
-        .background(Color("BackgroundColor"))
         .navigationTitle("Nabídka")
         .navigationBarTitleDisplayMode(.large)
     }

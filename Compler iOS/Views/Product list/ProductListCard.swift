@@ -32,7 +32,7 @@ struct ProductListCard: View {
                 Text("\(product.brand) \(product.modelName)")
                     .bold()
                     .multilineTextAlignment(.center)
-                Text("Od \(product.lowestPriceFormatted)")
+                Text("Od \(product.lowestPrice.formattedAsPrice)")
                     .font(.caption)
             }
             .padding()

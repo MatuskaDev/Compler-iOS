@@ -18,7 +18,9 @@ class OrderHistoryViewModel: ObservableObject {
     
     func loadOrders() async {
         do {
-            let orders = try await DatabaseManager.shared.getOrders(userId: UserManager.shared.user!.id)
+            let orders = try await DatabaseManager.shared.getOrders(userId: UserManager.shared.user!.id).sorted { lhs, rhs in
+                lhs.createdAt > rhs.createdAt
+            }
             
             DispatchQueue.main.async {
                 self.orders = orders

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ProductViewModel: ObservableObject {
+class ProductDetailViewModel: ObservableObject {
     
     var product: Product
     
@@ -125,25 +125,6 @@ class ProductViewModel: ObservableObject {
         }
     }
     
-    func formatStorageSize(_ size: Int) -> String {
-        if size < 1024 {
-            return "\(size) GB"
-        } else {
-            return "\(size/1024) TB"
-        }
-    }
-    
-    // MARK: Price formatters
-    func formatPrice(_ price: Int) -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.currencyCode = "czk"
-        formatter.currencyGroupingSeparator = " "
-        formatter.currencyDecimalSeparator = ","
-        formatter.minimumFractionDigits = 0
-        return formatter.string(from: price as NSNumber)!
-    }
-    
     private func formatOptionPrice(_ price: Int) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
@@ -155,5 +136,4 @@ class ProductViewModel: ObservableObject {
         formatter.negativePrefix = "- "
         return formatter.string(from: price as NSNumber)!
     }
-    
 }

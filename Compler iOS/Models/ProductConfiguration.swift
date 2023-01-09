@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductConfiguration: Codable, Identifiable, Equatable, Hashable {
+struct ProductConfiguration: Codable, Identifiable, Hashable {
     var id: String
     var screenResolution: Resolution
     var touchScreen: Bool
@@ -22,31 +22,6 @@ struct ProductConfiguration: Codable, Identifiable, Equatable, Hashable {
     var gpuMemorySize: Int?
     var gpuScore: Int
     var price: Int
-    
-    var formattedStorageSize: String {
-        if storageSize < 1024 {
-            return "\(storageSize) GB"
-        } else {
-            return "\(storageSize/1024) TB"
-        }
-    }
-    var formattedMemorySize: String {
-        if memorySize < 1024 {
-            return "\(memorySize) GB"
-        } else {
-            return "\(memorySize/1024) TB"
-        }
-    }
-    
-    var formattedPrice: String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.currencyCode = "czk"
-        formatter.currencyGroupingSeparator = " "
-        formatter.currencyDecimalSeparator = ","
-        formatter.minimumFractionDigits = 0
-        return formatter.string(from: price as NSNumber)!
-    }
 }
 
 extension ProductConfiguration {
