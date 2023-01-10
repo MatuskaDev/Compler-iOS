@@ -127,7 +127,9 @@ struct CheckoutConfirmation: View {
             
             // Done button
             Button("Hotovo") {
-                navigationHelper.path.removeAll()
+                withAnimation {
+                    navigationHelper.path.removeAll()
+                }
             }
             .buttonStyle(LargeButtonStyle())
             

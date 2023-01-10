@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import StripePaymentsUI
 
 /// Checkout form
 struct CheckoutForm: View {

@@ -10,10 +10,10 @@ import SwiftUI
 /// Main checkout view
 struct CheckoutView: View {
     
-    @ObservedObject var model: CheckoutViewModel
+    @StateObject var model: CheckoutViewModel
     
     init(checkoutProduct: CheckoutProduct) {
-        model = CheckoutViewModel(checkoutProduct: checkoutProduct)
+        _model = StateObject(wrappedValue: CheckoutViewModel(checkoutProduct: checkoutProduct))
     }
     
     var body: some View {
